@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+<!--
+    <record model="ir.ui.view" id="h_jubran_prd.list">
+      <field name="name">h_jubran_prd list</field>
+      <field name="model">h_jubran_prd.h_jubran_prd</field>
+      <field name="arch" type="xml">
+        <list>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </list>
+      </field>
+    </record>
+-->
+
+    <!-- actions opening views on models -->
+<!--
+    <record model="ir.actions.act_window" id="h_jubran_prd.action_window">
+      <field name="name">h_jubran_prd window</field>
+      <field name="res_model">h_jubran_prd.h_jubran_prd</field>
+      <field name="view_mode">list,form</field>
+    </record>
+-->
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="h_jubran_prd.action_server">
+      <field name="name">h_jubran_prd server</field>
+      <field name="model_id" ref="model_h_jubran_prd_h_jubran_prd"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "list,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="h_jubran_prd" id="h_jubran_prd.menu_root"/>
+-->
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="h_jubran_prd.menu_1" parent="h_jubran_prd.menu_root"/>
+    <menuitem name="Menu 2" id="h_jubran_prd.menu_2" parent="h_jubran_prd.menu_root"/>
+-->
+    <!-- actions -->
+<!--
+    <menuitem name="List" id="h_jubran_prd.menu_1_list" parent="h_jubran_prd.menu_1"
+              action="h_jubran_prd.action_window"/>
+    <menuitem name="Server to list" id="h_jubran_prd" parent="h_jubran_prd.menu_2"
+              action="h_jubran_prd.action_server"/>
+-->
+  </data>
+</odoo>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Maintenance Record Tree View -->
+        <record id="view_maintenance_record_tree" model="ir.ui.view">
+            <field name="name">auto.vehicle.repair.maintenance.tree</field>
+            <field name="model">auto.vehicle.repair.maintenance</field>
+            <field name="arch" type="xml">
+                <list string="Maintenance Records" decoration-success="status=='completed'" decoration-danger="status=='cancelled'">
+                    <field name="name"/>
+                    <field name="vehicle_id"/>
+                    <field name="customer_id"/>
+                    <field name="scheduled_maintenance_date"/>
+                    <field name="status" widget="badge"/>
+                    <field name="completed_date"/>
+                    <field name="related_work_order_id"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Maintenance Record Form View -->
+        <record id="view_maintenance_record_form" model="ir.ui.view">
+            <field name="name">auto.vehicle.repair.maintenance.form</field>
+            <field name="model">auto.vehicle.repair.maintenance</field>
+            <field name="arch" type="xml">
+                <form string="Maintenance Record">
+                    <header>
+                        <button name="action_mark_completed" string="Mark Completed" type="object" class="oe_highlight" invisible="status != 'pending'"/>
+                        <button name="action_mark_pending" string="Mark Pending" type="object" invisible="status != 'completed'"/>
+                        <button name="action_cancel" string="Cancel" type="object" invisible="status == 'cancelled'"/>
+                        <button name="action_create_inspection" string="Create Inspection" type="object" class="oe_highlight" invisible="status == 'cancelled'"/>
+                        <field name="status" widget="statusbar" statusbar_visible="pending,completed"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="vehicle_id" options="{'no_create': False}"/>
+                                <field name="customer_id" readonly="1"/>
+                                <field name="scheduled_maintenance_date"/>
+                            </group>
+                            <group>
+                                <field name="related_work_order_id" readonly="1"/>
+                                <field name="completed_date" invisible="status != 'completed'"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Notes">
+                                <field name="notes" nolabel="1"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <!-- Maintenance Record Search View -->
+        <record id="view_maintenance_record_search" model="ir.ui.view">
+            <field name="name">auto.vehicle.repair.maintenance.search</field>
+            <field name="model">auto.vehicle.repair.maintenance</field>
+            <field name="arch" type="xml">
+                <search string="Maintenance Records">
+                    <field name="name"/>
+                    <field name="vehicle_id"/>
+                    <field name="customer_id"/>
+                    <filter string="Pending" name="status_pending" domain="[('status', '=', 'pending')]"/>
+                    <filter string="Completed" name="status_completed" domain="[('status', '=', 'completed')]"/>
+                    <filter string="Upcoming" name="upcoming" domain="[('scheduled_maintenance_date', '>=', context_today().strftime('%Y-%m-%d')), ('status', '=', 'pending')]"/>
+                    <filter string="Overdue" name="overdue" domain="[('scheduled_maintenance_date', '&lt;', context_today().strftime('%Y-%m-%d')), ('status', '=', 'pending')]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Status" name="group_status" context="{'group_by': 'status'}"/>
+                        <filter string="Vehicle" name="group_vehicle" context="{'group_by': 'vehicle_id'}"/>
+                        <filter string="Customer" name="group_customer" context="{'group_by': 'customer_id'}"/>
+                        <filter string="Scheduled Date" name="group_date" context="{'group_by': 'scheduled_maintenance_date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Maintenance Record Kanban View -->
+        <record id="view_maintenance_record_kanban" model="ir.ui.view">
+            <field name="name">auto.vehicle.repair.maintenance.kanban</field>
+            <field name="model">auto.vehicle.repair.maintenance</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="status" class="o_kanban_mobile">
+                    <field name="name"/>
+                    <field name="vehicle_id"/>
+                    <field name="customer_id"/>
+                    <field name="scheduled_maintenance_date"/>
+                    <field name="status"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_card oe_kanban_global_click">
+                                <div class="oe_kanban_content">
+                                    <div class="o_kanban_record_top">
+                                        <div class="o_kanban_record_headings">
+                                            <strong class="o_kanban_record_title">
+                                                <field name="name"/>
+                                            </strong>
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_record_body">
+                                        <div><field name="vehicle_id"/></div>
+                                        <div><field name="customer_id"/></div>
+                                        <div>Date: <field name="scheduled_maintenance_date"/></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- Maintenance Record Action -->
+        <record id="action_maintenance_record" model="ir.actions.act_window">
+            <field name="name">Maintenance Schedule</field>
+            <field name="res_model">auto.vehicle.repair.maintenance</field>
+            <field name="view_mode">kanban,list,form</field>
+            <field name="search_view_id" ref="view_maintenance_record_search"/>
+            <field name="context">{'search_default_upcoming': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No maintenance records yet!
+                </p>
+                <p>
+                    Maintenance records are automatically created when repair jobs are finalized with maintenance scheduling enabled.
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>
+

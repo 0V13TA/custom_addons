@@ -1,0 +1,14 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_vehicle_user,auto.vehicle.repair.vehicle.user,model_auto_vehicle_repair_vehicle,base.group_user,1,1,1,1
+access_inspection_user,auto.vehicle.repair.inspection.user,model_auto_vehicle_repair_inspection,base.group_user,1,1,1,1
+access_work_order_user,auto.vehicle.repair.work.order.user,model_auto_vehicle_repair_work_order,base.group_user,1,1,1,1
+access_maintenance_record_user,auto.vehicle.repair.maintenance.user,model_auto_vehicle_repair_maintenance,base.group_user,1,1,1,1
+access_quotation_line_user,auto.vehicle.repair.quotation.line.user,model_auto_vehicle_repair_quotation_line,base.group_user,1,1,1,1
+access_vehicle_manager,auto.vehicle.repair.vehicle.manager,model_auto_vehicle_repair_vehicle,base.group_system,1,1,1,1
+access_inspection_manager,auto.vehicle.repair.inspection.manager,model_auto_vehicle_repair_inspection,base.group_system,1,1,1,1
+access_work_order_manager,auto.vehicle.repair.work.order.manager,model_auto_vehicle_repair_work_order,base.group_system,1,1,1,1
+access_maintenance_record_manager,auto.vehicle.repair.maintenance.manager,model_auto_vehicle_repair_maintenance,base.group_system,1,1,1,1
+access_quotation_line_manager,auto.vehicle.repair.quotation.line.manager,model_auto_vehicle_repair_quotation_line,base.group_system,1,1,1,1
+access_spare_part_user,auto.vehicle.repair.spare.part.user,model_auto_vehicle_repair_spare_part,base.group_user,1,1,1,1
+access_spare_part_manager,auto.vehicle.repair.spare.part.manager,model_auto_vehicle_repair_spare_part,base.group_system,1,1,1,1
+

@@ -1,0 +1,40 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_h_jubran_project_stage_global,Global Project Stage Admin,model_h_jubran_project_stage_global,,1,1,1,1
+access_h_jubran_project_element_global,Global Project Element Admin,model_h_jubran_project_element_global,,1,1,1,1
+access_h_jubran_project_structure_global,Global Project Structure Admin,model_h_jubran_project_structure_global,,1,1,1,1
+access_h_jubran_project_structure_line,Global Project Structure Line Admin,model_h_jubran_project_structure_line,,1,1,1,1
+access_h_jubran_project,Project Admin,model_h_jubran_project,,1,1,1,1
+access_h_jubran_master_category,Master Category Admin,model_h_jubran_master_category,,1,1,1,1
+access_h_jubran_master_subcategory,Master SubCategory Admin,model_h_jubran_master_subcategory,,1,1,1,1
+access_h_jubran_master_element,Master Element Admin,model_h_jubran_master_element,,1,1,1,1
+access_h_jubran_master_sub_element,Master SubElement Admin,model_h_jubran_master_sub_element,,1,1,1,1
+access_h_jubran_boq_summary,BOQ Summary Admin,model_h_jubran_boq_summary,,1,1,1,1
+access_h_jubran_boq_summary_line,BOQ Summary Line Admin,model_h_jubran_boq_summary_line,,1,1,1,1
+access_h_jubran_project_user,Project Read for Users,model_h_jubran_project,base.group_user,1,0,0,0
+access_h_jubran_stage_user,Stage Read for Users,model_h_jubran_project_stage_global,base.group_user,1,0,0,0
+access_h_jubran_master_category_user,Master Category Read,model_h_jubran_master_category,base.group_user,1,0,0,0
+access_h_jubran_master_subcategory_user,Master SubCategory Read,model_h_jubran_master_subcategory,base.group_user,1,0,0,0
+access_h_jubran_master_element_user,Master Element Read,model_h_jubran_master_element,base.group_user,1,0,0,0
+access_h_jubran_master_sub_element_user,Master SubElement Read,model_h_jubran_master_sub_element,base.group_user,1,0,0,0
+access_h_jubran_boq_summary_user,BOQ Summary Read,model_h_jubran_boq_summary,base.group_user,1,0,0,0
+access_h_jubran_boq_summary_line_user,BOQ Summary Line Read,model_h_jubran_boq_summary_line,base.group_user,1,0,0,0
+access_h_jubran_boq_summary_category_tree,BOQ Summary Category Tree Admin,model_h_jubran_boq_summary_category_tree,,1,1,1,1
+access_h_jubran_boq_summary_category_tree_user,BOQ Summary Category Tree Read,model_h_jubran_boq_summary_category_tree,base.group_user,1,0,0,0
+access_h_jubran_boq_summary_scope_tree,BOQ Summary Scope Tree Admin,model_h_jubran_boq_summary_scope_tree,,1,1,1,1
+access_h_jubran_boq_summary_scope_tree_user,BOQ Summary Scope Tree Read,model_h_jubran_boq_summary_scope_tree,base.group_user,1,0,0,0
+access_h_jubran_boq_summary_scope_summary,BOQ Summary Scope Summary Admin,model_h_jubran_boq_summary_scope_summary,,1,1,1,1
+access_h_jubran_boq_summary_scope_summary_user,BOQ Summary Scope Summary Read,model_h_jubran_boq_summary_scope_summary,base.group_user,1,0,0,0
+access_h_jubran_petty_cash,Petty Cash Admin,model_h_jubran_petty_cash,,1,1,1,1
+access_h_jubran_petty_cash_user,Petty Cash Read,model_h_jubran_petty_cash,base.group_user,1,1,1,0
+access_h_jubran_petty_cash_issue,Petty Cash Issue Admin,model_h_jubran_petty_cash_issue,,1,1,1,1
+access_h_jubran_petty_cash_issue_user,Petty Cash Issue Read,model_h_jubran_petty_cash_issue,base.group_user,1,1,1,0
+access_h_jubran_petty_cash_breakdown,Petty Cash Breakdown Admin,model_h_jubran_petty_cash_breakdown,,1,1,1,1
+access_h_jubran_petty_cash_breakdown_user,Petty Cash Breakdown Read,model_h_jubran_petty_cash_breakdown,base.group_user,1,1,1,0
+access_h_jubran_purchase_request,Purchase Request Admin,model_h_jubran_purchase_request,,1,1,1,1
+access_h_jubran_purchase_request_user,Purchase Request Read,model_h_jubran_purchase_request,base.group_user,1,1,1,0
+access_h_jubran_purchase_request_line,Purchase Request Line Admin,model_h_jubran_purchase_request_line,,1,1,1,1
+access_h_jubran_purchase_request_line_user,Purchase Request Line Read,model_h_jubran_purchase_request_line,base.group_user,1,1,1,0
+access_h_jubran_pr_make_purchase_order,Make PO from PR Wizard,model_h_jubran_pr_make_purchase_order,base.group_user,1,0,0,0
+access_h_jubran_pr_make_purchase_order_item,Make PO from PR Item,model_h_jubran_pr_make_purchase_order_item,base.group_user,1,0,0,0
+access_h_jubran_project_stage_line_admin,Project Stage Line Admin,model_h_jubran_project_stage_line,,1,1,1,1
+access_h_jubran_project_stage_line_user,Project Stage Line Read,model_h_jubran_project_stage_line,base.group_user,1,0,0,0

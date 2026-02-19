@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="favicon_override" inherit_id="web.layout">
+        <xpath expr="//link[@rel='shortcut icon']" position="replace">
+            <link rel="shortcut icon" href="/custom_favicon/static/img/favicon.ico"/>
+        </xpath>
+    </template>
+
+    <template id="title_override" inherit_id="web.layout">
+        <xpath expr="//title" position="replace">
+            <title t-esc="'%s  %s' % (request.params.get('title', ''), 'EnterpriseOne')" />
+
+       </xpath>
+   </template>
+</odoo>
+

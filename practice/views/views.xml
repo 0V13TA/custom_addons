@@ -1,0 +1,113 @@
+<odoo>
+  <record id="action_practice_classroom" model="ir.actions.act_window">
+    <field name="name">Classrooms</field>
+    <field name="res_model">practice.classroom</field>
+    <field name="view_mode">kanban,list,form</field>
+  </record>
+
+  <record id="action_practice_student" model="ir.actions.act_window">
+    <field name="name">Students</field>
+    <field name="res_model">practice.student</field>
+    <field name="view_mode">kanban,list,form</field>
+  </record>
+
+  <record id="action_practice_teacher" model="ir.actions.act_window">
+    <field name="name">Teachers</field>
+    <field name="res_model">practice.teacher</field>
+    <field name="view_mode">kanban,list,form</field>
+  </record>
+
+  <record id="view_practice_student_kanban" model="ir.ui.view">
+    <field name="name">practice.student.kanban</field>
+    <field name="model">practice.student</field>
+    <field name="arch" type="xml">
+      <kanban>
+        <templates>
+          <t t-name="kanban-box">
+            <div class="oe_kanban_global_click">
+              <div class="oe_kanban_details">
+                <strong>
+                  <field name="partner_id" />
+                </strong>
+                <div>GPA: <field name="gpa" /></div>
+                <div><field name="is_border" widget="boolean_favorite" /> Boarder</div>
+              </div>
+            </div>
+          </t>
+        </templates>
+      </kanban>
+    </field>
+  </record>
+
+  <record id="view_practice_student_form" model="ir.ui.view">
+    <field name="name">practice.student.form</field>
+    <field name="model">practice.student</field>
+    <field name="arch" type="xml">
+      <form string="Student Dashboard">
+        <sheet>
+          <group>
+            <group string="Personal Info">
+              <field name="partner_id" />
+              <field name="guarantor_id" groups="practice.group_teacher,practice.group_school_admin" />
+            </group>
+            <group string="Academic Stats">
+              <field name="gpa" />
+              <field name="classroom_id" readonly="1" />
+            </group>
+          </group>
+          <notebook>
+            <page string="Registered Subjects">
+              <field name="subject_ids" widget="many2many_tags" />
+            </page>
+          </notebook>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <record id="view_practice_classroom_form" model="ir.ui.view">
+    <field name="name">practice.classroom.form</field>
+    <field name="model">practice.classroom</field>
+    <field name="arch" type="xml">
+      <form>
+        <header>
+          <field name="state" widget="statusbar" clickable="True" />
+        </header>
+        <sheet>
+          <div class="oe_title">
+            <h1>
+              <field name="name" placeholder="Class Name" />
+            </h1>
+          </div>
+          <group>
+            <group>
+              <field name="teacher_id" />
+              <field name="capacity" />
+            </group>
+            <group>
+              <field name="average_cgpa" />
+            </group>
+          </group>
+          <notebook>
+            <page string="Students">
+              <field name="student_ids">
+                <list>
+                  <field name="partner_id" />
+                  <field name="gpa" />
+                </list>
+              </field>
+            </page>
+          </notebook>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <menuitem id="menu_school_root" name="School Management" sequence="10" />
+  <menuitem id="menu_school_classroom" name="Classrooms" parent="menu_school_root"
+    action="action_practice_classroom" />
+  <menuitem id="menu_school_student" name="Students" parent="menu_school_root"
+    action="action_practice_student" />
+  <menuitem id="menu_school_teacher" name="Teachers" parent="menu_school_root"
+    action="action_practice_teacher" />
+</odoo>

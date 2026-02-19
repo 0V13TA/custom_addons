@@ -1,0 +1,30 @@
+/** @odoo-module **/
+
+import { Footer } from "@l10n_it_pos/app/documents/fiscal_document/footer/footer";
+import { patch } from "@web/core/utils/patch";
+
+// Override the Italian POS fiscal document footer to remove "Powered by Odoo"
+patch(Footer.prototype, {
+    get footers() {
+        const { Heading } = this.constructor.components || {};
+        if (!Heading) {
+            return super.footers;
+        }
+        
+        Heading.resetIndex();
+        const headings = [
+            // Remove "Powered by Odoo" line - comment out or replace
+            // new Heading(_t("Powered by Odoo")),
+            
+            // Option: Replace with your custom text
+            // new Heading(_t("Powered by Your Company")),
+            
+            new Heading(this.order.name),
+            new Heading(formatDateTime(parseUTCString(this.order.date_order))),
+        ];
+
+        return headings.filter(Boolean);
+    }
+});
+
+

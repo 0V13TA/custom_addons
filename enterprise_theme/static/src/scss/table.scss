@@ -1,0 +1,259 @@
+// .o_list_view .table-responsive {
+//   overflow-x: auto;
+//   width: 100%;
+// }
+
+// .o_list_view .o_list_table {
+//   width: 100%;
+//   border-collapse: collapse;
+//   border: 1px solid #ddd !important;
+//   border-radius: 8px;
+//   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+//   background-color: #fff;
+//   table-layout: fixed; /* FIXED layout */
+//   margin: 0 auto;
+// }
+// .o_list_view .o_list_table th {
+//   text-align: left !important;
+// }
+// .o_list_view .o_list_table th,
+// .o_list_view .o_list_table td {
+//   padding: 10px 12px;
+//   border: 0.5px solid #ddd !important;
+//   vertical-align: middle;
+//   text-align: left!important;
+//   white-space: normal !important;
+//   word-wrap: break-word;
+//   overflow-wrap: break-word;
+//   max-width: 100%; /* constrain max width */
+//   box-sizing: border-box;
+// }
+// .o_list_view .o_list_table td.o_list_number {
+//   text-align: left !important;
+// }
+
+// .o_list_view .o_list_table th {
+//   background-color: #1976D2 !important;
+//   color: #fff !important;
+//   font-weight: bold;
+//   user-select: none;
+//   white-space: normal; /* allow header wrapping */
+// }
+
+// .o_list_view .o_list_table tr:hover {
+//   background-color: #f1f1f1;
+//   cursor: pointer;
+// }
+// .o_list_view .o_list_table {
+//   display: block;
+//   overflow-x: auto;
+//   white-space: nowrap;
+// }
+/* Container responsiveness */
+.o_list_view .table-responsive {
+  overflow-x: auto;
+  width: 100%;
+}
+
+/* Main table styling */
+.o_list_view .o_list_table {
+  width: 100%;
+  margin-top: 15px;
+  border-collapse: collapse;
+  border: 1px solid #ddd !important;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  background-color: #fff;
+  /* Use fixed layout for strict column widths */
+  table-layout: fixed !important; 
+  margin: 0 auto;
+  display: table !important;       /* behave like normal table */
+  white-space: normal !important;  /* allow wrapping globally */
+  overflow-x: hidden;              /* prevent horizontal scroll/whitespace */
+}
+
+/* Table header cells */
+.o_list_view .o_list_table th {
+
+  text-align: left !important;
+  margin-top: 25px;
+  padding: 15px 12px 10px 12px;
+  white-space: normal !important;  /* Allow wrapping */
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+  overflow: visible !important;      /* Show full content */
+  text-overflow: clip !important;    /* Disable ellipsis */
+  max-width: none !important;
+  line-height: 1.3;
+  min-height: 30px !important;       /* Enough height for 2+ lines */
+  user-select: none;
+  box-sizing: border-box;
+  position: relative; /* helps with stacking if needed */
+  vertical-align: top; /* align all headers at top for cleaner wrapping */
+}
+
+/* Make sure child elements inside th also wrap */
+.o_list_view .o_list_table th * {
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  max-width: none !important;
+  margin-top: 5px;
+}
+
+/* Specific adjustment for serial number header */
+.o_list_renderer .o_list_table thead .o_list_number_th {
+  text-align: left !important; /* Align left instead of right */
+  white-space: nowrap !important; /* Prevent wrapping */
+}
+
+/* Table header and data cells general */
+.o_list_view .o_list_table th,
+.o_list_view .o_list_table td {
+  padding: 10px 12px;
+  border: 0.5px solid #ddd !important;
+  vertical-align: middle;
+  text-align: left !important;
+  white-space: normal !important;  /* Allow wrapping */
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Serial number data cells */
+.o_list_view .o_list_table td.o_list_number {
+  text-align: left !important;
+  white-space: nowrap; /* Keep serial numbers on single line */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Table header background and styling */
+.o_list_view .o_list_table th {
+  background-color: #0165fc !important;
+  color: #fff !important;
+  font-weight: bold;
+}
+
+/* Row hover effect */
+.o_list_view .o_list_table tr:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
+}
+
+/* Center text for specific button column header */
+.o_list_view .o_list_table thead > tr > th[data-field="request_book"] {
+  text-align: center;
+}
+
+/* Center the cell containing the button */
+.o_list_view .o_list_table tbody > tr > td[data-field="request_book"] {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Column widths - fixed layout respects these exactly */
+
+/* Serial number column */
+.o_list_view .o_list_table td.sn_col,
+.o_list_view .o_list_table th.sn_col {
+  width: 3% !important;
+  white-space: normal !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: top;
+  text-align: left !important;
+  display: table-cell !important;
+}
+
+/* Author column */
+.o_list_view .o_list_table td.author_col,
+.o_list_view .o_list_table th.author_col {
+  width: 25% !important;
+  white-space: normal !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+  vertical-align: top;
+  text-align: left !important;
+  display: table-cell !important;
+}
+
+/* Inner widget inside author column */
+.o_list_view .o_list_table td.author_col .o_field_widget {
+  display: block !important;
+  white-space: normal !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  width: 100% !important;
+  text-align: left !important;
+}
+
+/* Name column */
+.o_list_view .o_list_table td.name_col,
+.o_list_view .o_list_table th.name_col {
+  width: 15% !important;
+  white-space: normal !important;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  vertical-align: top;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  text-align: left !important;
+}
+
+/* Publisher column */
+.o_list_view .o_list_table td.publisher,
+.o_list_view .o_list_table th.publisher {
+  width: 15% !important;
+  white-space: normal !important;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  vertical-align: top;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  text-align: left !important;
+}
+.o_list_view .o_list_table td.published,
+.o_list_view .o_list_table th.published {
+  width: 10% !important;
+  white-space: normal !important;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  vertical-align: top;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  text-align: left !important;
+}
+.o_list_view .o_list_table th.published {
+  width: 10%;
+}
+
+/* Problematic columns with proper smaller width and wrapping */
+.o_list_view .o_list_table th.total_books_col,
+.o_list_view .o_list_table td.total_books_col,
+.o_list_view .o_list_table th.availability_col,
+.o_list_view .o_list_table td.availability_col {
+  width: 15% !important; /* Smaller width */
+  white-space: normal !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+  vertical-align: top;
+  text-align: left !important;
+  display: table-cell !important;
+}
+.o_list_renderer .o_list_table thead th.total_books_col,
+.o_list_renderer .o_list_table thead th.availability_col {
+    white-space: normal !important;  /* Allow wrapping */
+}
+.o_list_renderer .o_list_table thead .o_list_number_th {
+    text-align: left !important;
+    white-space: normal !important;
+}

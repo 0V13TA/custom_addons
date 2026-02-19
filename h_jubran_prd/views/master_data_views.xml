@@ -1,0 +1,259 @@
+<odoo>
+    <data>
+
+        <!-- ===================== -->
+        <!-- Actions               -->
+        <!-- ===================== -->
+        <record id="action_h_jubran_master_category" model="ir.actions.act_window">
+            <field name="name">Categories</field>
+            <field name="res_model">h_jubran.master.category</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <record id="action_h_jubran_master_subcategory" model="ir.actions.act_window">
+            <field name="name">Sub-Categories</field>
+            <field name="res_model">h_jubran.master.subcategory</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <record id="action_h_jubran_master_element" model="ir.actions.act_window">
+            <field name="name">Elements</field>
+            <field name="res_model">h_jubran.master.element</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <!-- ===================== -->
+        <!-- Category Views        -->
+        <!-- ===================== -->
+        <record id="view_h_jubran_master_category_tree" model="ir.ui.view">
+            <field name="name">h_jubran.master.category.tree</field>
+            <field name="model">h_jubran.master.category</field>
+            <field name="arch" type="xml">
+                <list string="Categories">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="description"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_h_jubran_master_category_form" model="ir.ui.view">
+            <field name="name">h_jubran.master.category.form</field>
+            <field name="model">h_jubran.master.category</field>
+            <field name="arch" type="xml">
+                <form string="Category">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="code"/>
+                            </group>
+                            <group>
+                                <field name="description"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Sub-Categories">
+                                <field name="subcategory_ids">
+                                    <list editable="bottom">
+                                        <field name="code"/>
+                                        <field name="name"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- ===================== -->
+        <!-- Sub-Category Views    -->
+        <!-- ===================== -->
+        <record id="view_h_jubran_master_subcategory_tree" model="ir.ui.view">
+            <field name="name">h_jubran.master.subcategory.tree</field>
+            <field name="model">h_jubran.master.subcategory</field>
+            <field name="arch" type="xml">
+                <list string="Sub-Categories">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="category_id"/>
+                    <field name="quantity"/>
+                    <field name="rate"/>
+                    <field name="description"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_h_jubran_master_subcategory_form" model="ir.ui.view">
+            <field name="name">h_jubran.master.subcategory.form</field>
+            <field name="model">h_jubran.master.subcategory</field>
+            <field name="arch" type="xml">
+                <form string="Sub-Category">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="code"/>
+                            </group>
+                            <group>
+                                <field name="category_id"/>
+                                <field name="description"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="quantity" readonly="1" help="Total quantity from all confirmed vendor bills"/>
+                                <field name="rate" readonly="1" help="Weighted average rate from all confirmed vendor bills"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Elements">
+                                <field name="element_ids">
+                                    <list editable="bottom">
+                                        <field name="code"/>
+                                        <field name="name"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- ===================== -->
+        <!-- Element Views         -->
+        <!-- ===================== -->
+        <record id="view_h_jubran_master_element_tree" model="ir.ui.view">
+            <field name="name">h_jubran.master.element.tree</field>
+            <field name="model">h_jubran.master.element</field>
+            <field name="arch" type="xml">
+                <list string="Elements">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="category_id"/>
+                    <field name="subcategory_id"/>
+                    <field name="description"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_h_jubran_master_element_form" model="ir.ui.view">
+            <field name="name">h_jubran.master.element.form</field>
+            <field name="model">h_jubran.master.element</field>
+            <field name="arch" type="xml">
+                <form string="Element">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="code"/>
+                            </group>
+                            <group>
+                                <field name="subcategory_id"/>
+                                <field name="category_id" readonly="1"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="description"/>
+                        </group>
+                        <notebook>
+                            <page string="Sub-Elements">
+                                <field name="sub_element_ids">
+                                    <list editable="bottom">
+                                        <field name="code"/>
+                                        <field name="name"/>
+                                    </list>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- ===================== -->
+        <!-- Sub-Element Views     -->
+        <!-- ===================== -->
+        <record id="action_h_jubran_master_sub_element" model="ir.actions.act_window">
+            <field name="name">Sub-Elements</field>
+            <field name="res_model">h_jubran.master.sub.element</field>
+            <field name="view_mode">list,form</field>
+        </record>
+
+        <record id="view_h_jubran_master_sub_element_tree" model="ir.ui.view">
+            <field name="name">h_jubran.master.sub.element.tree</field>
+            <field name="model">h_jubran.master.sub.element</field>
+            <field name="arch" type="xml">
+                <list string="Sub-Elements">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="element_id"/>
+                    <field name="subcategory_id"/>
+                    <field name="category_id"/>
+                    <field name="description"/>
+                </list>
+            </field>
+        </record>
+
+        <record id="view_h_jubran_master_sub_element_form" model="ir.ui.view">
+            <field name="name">h_jubran.master.sub.element.form</field>
+            <field name="model">h_jubran.master.sub.element</field>
+            <field name="arch" type="xml">
+                <form string="Sub-Element">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="code"/>
+                            </group>
+                            <group>
+                                <field name="element_id"/>
+                                <field name="subcategory_id" readonly="1"/>
+                                <field name="category_id" readonly="1"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="description"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- ===================== -->
+        <!-- Menus                 -->
+        <!-- ===================== -->
+        <menuitem id="menu_h_jubran_master_data_root"
+                  name="Master Data"
+                  parent="menu_h_jubran_project_root"
+                  sequence="18"/>
+
+        <menuitem id="menu_h_jubran_master_categories"
+                  name="Categories"
+                  parent="menu_h_jubran_master_data_root"
+                  action="action_h_jubran_master_category"
+                  sequence="1"/>
+
+        <menuitem id="menu_h_jubran_master_subcategories"
+                  name="Sub-Categories"
+                  parent="menu_h_jubran_master_data_root"
+                  action="action_h_jubran_master_subcategory"
+                  sequence="2"/>
+
+        <menuitem id="menu_h_jubran_master_elements"
+                  name="Elements"
+                  parent="menu_h_jubran_master_data_root"
+                  action="action_h_jubran_master_element"
+                  sequence="3"/>
+
+        <menuitem id="menu_h_jubran_master_sub_elements"
+                  name="Sub-Elements"
+                  parent="menu_h_jubran_master_data_root"
+                  action="action_h_jubran_master_sub_element"
+                  sequence="4"/>
+
+    </data>
+</odoo>
+

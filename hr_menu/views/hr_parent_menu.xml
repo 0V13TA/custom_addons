@@ -1,0 +1,52 @@
+<odoo>
+  <!-- New top-level HR menu -->
+  <menuitem id="menu_hr_main"
+            name="HR"
+            sequence="10"
+            web_icon="hr,static/description/icon.png"/>
+
+  <!-- Re-parent existing root menus -->
+  <record id="hr.menu_hr_root" model="ir.ui.menu">
+    <field name="parent_id" ref="menu_hr_main"/>
+  </record>
+
+  <!--<record id="hr_recruitment.menu_hr_recruitment_root" model="ir.ui.menu">
+    <field name="parent_id" ref="menu_hr_main"/>
+  </record>-->
+
+  <record id="hr_attendance.menu_hr_attendance_root" model="ir.ui.menu">
+    <field name="parent_id" ref="menu_hr_main"/>
+  </record>
+
+  <record id="hr_holidays.menu_hr_holidays_root" model="ir.ui.menu">
+    <field name="parent_id" ref="menu_hr_main"/>
+  </record>
+
+  <record id="fleet.menu_root" model="ir.ui.menu">
+    <field name="parent_id" ref="menu_hr_main"/>
+  </record>
+
+  <record id="hr_timesheet.timesheet_menu_root" model="ir.ui.menu">
+    <field name="parent_id" ref="menu_hr_main"/>
+  </record>
+
+  <record id="hr_payroll_community.menu_hr_payroll_community_root" model="ir.ui.menu">
+    <field name="parent_id" ref="menu_hr_main"/>
+  </record>
+
+  <!--<record id="hr_employee_transfer.employee_transfer_menu_create_transfer" model="ir.ui.menu">
+    <field name="parent_id" ref="menu_hr_main"/>
+  </record>
+
+  <record id="hr_reward_warning.hr_announcement_menu_root" model="ir.ui.menu">
+    <field name="parent_id" ref="menu_hr_main"/>
+  </record>
+
+  <record id="hr_resignation.hr_resignation_menu_root" model="ir.ui.menu">
+    <field name="parent_id" ref="menu_hr_main"/>
+  </record>
+
+  <record id="hr_reminder.hr_reminder_menu" model="ir.ui.menu">
+    <field name="parent_id" ref="menu_hr_main"/>
+  </record>-->
+</odoo>

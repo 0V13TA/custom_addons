@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <!-- Override POS Order Receipt template to use custom footer text from company settings -->
+    <t t-name="point_of_sale.OrderReceipt" t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension" owl="1">
+        <!-- Replace footer text -->
+        <xpath expr="//div[@class='pos-receipt-order-data']/p[contains(text(), 'Powered by Odoo')]" position="replace">
+            <t t-if="props.data.headerData and props.data.headerData.company and props.data.headerData.company.pos_receipt_footer_text">
+                <p t-esc="props.data.headerData.company.pos_receipt_footer_text"/>
+            </t>
+            <t t-else="">
+                <!-- Hide if no text is set -->
+            </t>
+        </xpath>
+    </t>
+</templates>
+

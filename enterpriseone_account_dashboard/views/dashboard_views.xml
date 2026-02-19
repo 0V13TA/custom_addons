@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Unique client action -->
+    <record id="action_enterpriseone_dashboard" model="ir.actions.client">
+        <field name="name">Dashboard</field>
+        <field name="tag">enterpriseone_account_dashboard</field>
+    </record>
+
+    <!-- Override the existing dashboard menu to use our custom dashboard -->
+    <record id="account.menu_board_journal_1" model="ir.ui.menu">
+        <field name="action" ref="action_enterpriseone_dashboard"/>
+    </record>
+</odoo>

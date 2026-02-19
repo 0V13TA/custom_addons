@@ -1,0 +1,58 @@
+/* Login page styling */
+body.bg-100 {
+    background-color: #f5f7fa !important;
+    background-image: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%);
+    background-size: cover;
+}
+
+.card.o_database_list {
+    border-radius: 10px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
+    border: none !important;
+    overflow: hidden !important;
+}
+
+.hemis_login_header {
+    background-color: white;
+    padding: 2rem;
+    text-align: center;
+    color: #0165fc;
+    margin-bottom: 1.5rem;
+    border-radius: 10px 10px 0 0;
+    margin: -1.5rem -1.5rem 1.5rem -1.5rem;
+}
+
+.hemis_login_logo {
+    max-height: 80px;
+    margin-bottom: 1rem;
+}
+
+.hemis_login_title h1 {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.hemis_login_title h2 {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-top: 0;
+}
+
+.hemis_login_button {
+    background-color: #0165fc !important;
+    border-color: #0165fc !important;
+    font-weight: 600 !important;
+    padding: 0.6rem !important;
+}
+
+.hemis_login_footer {
+    text-align: center;
+    margin-top: 1.5rem;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.form-control {
+    height: calc(2.5rem + 2px);
+    padding: 0.5rem 1rem;
+}

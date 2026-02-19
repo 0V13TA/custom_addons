@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_subject_admin,subject admin,model_practice_subject,practice.group_school_admin,1,1,1,1
+access_subject_teacher,subject teacher,model_practice_subject,practice.group_teacher,1,0,0,0
+access_student_admin,student admin,model_practice_student,practice.group_school_admin,1,1,1,1
+access_student_teacher,student teacher,model_practice_student,practice.group_teacher,1,1,0,0
+access_teacher_admin,teacher admin,model_practice_teacher,practice.group_school_admin,1,1,1,1
+access_teacher_teacher,teacher role,model_practice_teacher,practice.group_teacher,1,1,0,0
+access_classroom_admin,classroom admin,model_practice_classroom,practice.group_school_admin,1,1,1,1
+access_classroom_teacher,classroom teacher,model_practice_classroom,practice.group_teacher,1,1,0,0

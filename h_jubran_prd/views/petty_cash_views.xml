@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Petty Cash List View -->
+    <record id="view_petty_cash_tree" model="ir.ui.view">
+        <field name="name">h.jubran.petty.cash.tree</field>
+        <field name="model">h_jubran.petty.cash</field>
+        <field name="arch" type="xml">
+            <list string="Petty Cash">
+                <field name="name"/>
+                <field name="custodian_id" widget="many2one_avatar_user"/>
+                <field name="project_id"/>
+                <field name="location_id"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="amount_issued" widget="monetary"/>
+                <field name="amount_expended" widget="monetary"/>
+                <field name="balance" widget="monetary"/>
+                <field name="state" widget="badge" 
+                    decoration-success="state == 'done'"
+                    decoration-info="state == 'approved'"
+                    decoration-muted="state == 'draft'"/>
+                <field name="currency_id" invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Petty Cash Form View -->
+    <record id="view_petty_cash_form" model="ir.ui.view">
+        <field name="name">h.jubran.petty.cash.form</field>
+        <field name="model">h_jubran.petty.cash</field>
+        <field name="arch" type="xml">
+            <form string="Petty Cash">
+                <header>
+                    <button name="action_request_approval" string="Request approval" 
+                        type="object" class="oe_highlight"
+                        invisible="state != 'draft'"/>
+                    <button name="action_approve" string="Approve" 
+                        type="object" class="oe_highlight"
+                        invisible="state != 'request_approval'"/>
+                    <button name="action_done" string="Done" 
+                        type="object" class="oe_highlight"
+                        invisible="state != 'approved'"/>
+                    <button name="action_draft" string="Reset to Draft" 
+                        type="object"
+                        invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar" 
+                        statusbar_visible="draft,request_approval,approved,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button type="object" name="action_view_journal_entries" 
+                            class="oe_stat_button" icon="fa-book">
+                            <field name="journal_entry_count" widget="statinfo" 
+                                string="Journal Entries"/>
+                        </button>
+                    </div>
+                    <field name="journal_entry_count" invisible="1"/>
+                    <group>
+                        <group>
+                            <field name="custodian_id" options="{'no_create': True}"/>
+                            <field name="project_id"/>
+                            <field name="amount_issued" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="amount_expended" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <field name="location_id" domain="[('usage', 'in', ['internal', 'transit'])]"/>
+                            <field name="balance" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Issue amount to custodian" name="issue_lines">
+                            <field name="issue_line_ids" nolabel="1">
+                                <list editable="bottom">
+                                    <field name="reference" string="Request Description"/>
+                                    <field name="debit_account_id" 
+                                        domain="[('deprecated', '=', False)]"
+                                        context="{'default_company_id': parent.company_id}"
+                                        groups="h_jubran_prd.group_petty_cash_manager"/>
+                                    <field name="credit_account_id" 
+                                        domain="[('deprecated', '=', False)]"
+                                        context="{'default_company_id': parent.company_id}"
+                                        groups="h_jubran_prd.group_petty_cash_manager"/>
+                                    <field name="journal_id" 
+                                        domain="[('type', '=', 'general')]"
+                                        context="{'default_company_id': parent.company_id}"
+                                        groups="h_jubran_prd.group_petty_cash_manager"/>
+                                    <field name="date"/>
+                                    <field name="amount" widget="monetary"/>
+                                    <field name="state" 
+                                        decoration-success="state == 'approved'"
+                                        decoration-danger="state == 'rejected'"
+                                        decoration-muted="state in ('draft', 'cancelled')"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Petty Breakdown" name="breakdown_lines">
+                            <field name="breakdown_line_ids" nolabel="1">
+                                <list editable="bottom" default_order="request_date desc">
+                                    <field name="reference" string="Request Description"/>
+                                    <field name="debit_account_id" 
+                                        domain="[('deprecated', '=', False)]"
+                                        context="{'default_company_id': parent.company_id}"
+                                        groups="h_jubran_prd.group_petty_cash_manager"/>
+                                    <field name="credit_account_id" 
+                                        domain="[('deprecated', '=', False)]"
+                                        context="{'default_company_id': parent.company_id}"
+                                        groups="h_jubran_prd.group_petty_cash_manager"/>
+                                    <field name="journal_id" 
+                                        domain="[('type', '=', 'general')]"
+                                        context="{'default_company_id': parent.company_id}"
+                                        groups="h_jubran_prd.group_petty_cash_manager"/>
+                                    <field name="request_date"/>
+                                    <field name="category_id"/>
+                                    <field name="subcategory_id" domain="[('category_id', '=', category_id)]"/>
+                                    <field name="amount" widget="monetary"/>
+                                    <field name="state" 
+                                        decoration-success="state == 'approved'"
+                                        decoration-danger="state == 'rejected'"
+                                        decoration-muted="state in ('draft', 'cancelled')"/>
+                                </list>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="currency_id" invisible="1"/>
+                                <div class="oe_subtotal_footer_separator oe_inline">
+                                    <label for="amount_expended"/>
+                                </div>
+                                <field name="amount_expended" nolabel="1" 
+                                    class="oe_subtotal_footer_separator" 
+                                    widget="monetary" 
+                                    options="{'currency_field': 'currency_id'}"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Petty Cash Search View -->
+    <record id="view_petty_cash_search" model="ir.ui.view">
+        <field name="name">h.jubran.petty.cash.search</field>
+        <field name="model">h_jubran.petty.cash</field>
+        <field name="arch" type="xml">
+            <search string="Petty Cash">
+                <field name="name"/>
+                <field name="custodian_id"/>
+                <field name="location_id"/>
+                <field name="state"/>
+                <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Approved" name="approved" domain="[('state', '=', 'approved')]"/>
+                <filter string="Done" name="done" domain="[('state', '=', 'done')]"/>
+                <separator/>
+                <filter string="My Petty Cash" name="my_petty_cash" 
+                    domain="[('custodian_id', '=', uid)]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Petty Cash Action -->
+    <record id="action_petty_cash" model="ir.actions.act_window">
+        <field name="name">Petty Cash</field>
+        <field name="res_model">h_jubran.petty.cash</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_petty_cash_search"/>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Click to create a new Petty Cash entry.
+            </p>
+            <p>
+                Manage petty cash transactions, track amounts issued to custodians,
+                and monitor expenditures with detailed breakdowns.
+            </p>
+        </field>
+    </record>
+
+    <!-- Petty Cash Breakdown Action -->
+    <record id="action_petty_cash_breakdown" model="ir.actions.act_window">
+        <field name="name">Petty Cash Breakdown</field>
+        <field name="res_model">h_jubran.petty.cash.breakdown</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('petty_cash_id', '=', active_id)]</field>
+        <field name="context">{'default_petty_cash_id': active_id}</field>
+    </record>
+
+</odoo>
+

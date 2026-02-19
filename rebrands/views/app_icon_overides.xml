@@ -1,0 +1,38 @@
+<odoo>
+    <data>
+        <record id="stock.menu_stock_root" model="ir.ui.menu">
+            <field name="web_icon">rebrands,static/description/inventory.png</field>
+        </record>
+    </data>
+
+    <data>
+        <record id="point_of_sale.menu_point_root" model="ir.ui.menu">
+            <field name="web_icon">rebrands,static/description/pos.png</field>
+        </record>
+    </data>
+
+    <data>
+        <record id="purchase.menu_purchase_root" model="ir.ui.menu">
+            <field name="web_icon">rebrands,static/description/purchase.png</field>
+        </record>
+    </data>
+
+    <data>
+        <record id="mrp.menu_mrp_root" model="ir.ui.menu">
+            <field name="web_icon">rebrands,static/description/mrp.png</field>
+        </record>
+    </data>
+
+    <data>
+        <record id="hr.menu_hr_root" model="ir.ui.menu">
+            <field name="web_icon">rebrands,static/description/hr.png</field>
+        </record>
+    </data>
+
+    <!-- <data>
+        <record id="account.menu_root" model="ir.ui.menu">
+            <field name="web_icon">rebrands,static/description/account.png</field>
+        </record>
+    </data> -->
+
+</odoo>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Main Menu -->
+        <menuitem id="menu_auto_repair_main"
+                  name="Auto Repair"
+                  sequence="100"
+                  web_icon="auto_vehicle_repair_maintenance,static/description/icon.png"/>
+
+        <!-- Configuration Menu -->
+        <menuitem id="menu_configuration"
+                  name="Configuration"
+                  parent="menu_auto_repair_main"
+                  sequence="5"/>
+
+        <!-- Vehicles Menu (under Configuration) -->
+        <menuitem id="menu_vehicle"
+                  name="Vehicle"
+                  parent="menu_configuration"
+                  action="action_vehicle"
+                  sequence="10"/>
+
+        <!-- Spare Parts Menu (under Configuration) -->
+        <menuitem id="menu_spare_part"
+                  name="Spare Parts"
+                  parent="menu_configuration"
+                  action="action_spare_part"
+                  sequence="20"/>
+
+        <!-- Inspections Menu -->
+        <menuitem id="menu_inspection"
+                  name="Inspections"
+                  parent="menu_auto_repair_main"
+                  action="action_inspection"
+                  sequence="20"/>
+
+        <!-- Work Orders Menu -->
+        <menuitem id="menu_work_order"
+                  name="Work Orders"
+                  parent="menu_auto_repair_main"
+                  action="action_work_order"
+                  sequence="21"/>
+
+        <!-- Maintenance Schedule Menu -->
+        <menuitem id="menu_maintenance_record"
+                  name="Maintenance Schedule"
+                  parent="menu_auto_repair_main"
+                  action="action_maintenance_record"
+                  sequence="30"/>
+    </data>
+</odoo>
+

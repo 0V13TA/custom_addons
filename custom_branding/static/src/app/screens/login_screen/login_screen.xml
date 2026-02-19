@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <!-- Override POS Login Screen to use custom logo -->
+    <t t-name="point_of_sale.LoginScreen" t-inherit="point_of_sale.LoginScreen" t-inherit-mode="extension" owl="1">
+        <!-- Replace company logo with custom POS logo if available -->
+        <xpath expr="//img[contains(@t-attf-src, 'logo')]" position="replace">
+            <img t-if="pos.company_logo_base64" t-att-src="pos.company_logo_base64" alt="Logo"/>
+            <img t-if="!pos.company_logo_base64" t-attf-src="/web/image?model=res.company&amp;id={{pos.company.id}}&amp;field=logo" alt="Logo"/>
+        </xpath>
+    </t>
+</templates>
+

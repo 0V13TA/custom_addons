@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <!-- Override POS Receipt Header to use custom logo -->
+    <t t-name="point_of_sale.ReceiptHeader" t-inherit="point_of_sale.ReceiptHeader" t-inherit-mode="extension" owl="1">
+        <!-- Replace company logo with custom POS logo if available -->
+        <xpath expr="//img[contains(@t-attf-src, 'logo')]" position="replace">
+            <img t-if="props.data.company.pos_logo" t-att-src="'data:image/png;base64,' + props.data.company.pos_logo" alt="Logo" class="pos-receipt-logo"/>
+            <img t-if="!props.data.company.pos_logo" t-attf-src="/web/image?model=res.company&amp;id={{props.data.company.id}}&amp;field=logo" alt="Logo" class="pos-receipt-logo"/>
+        </xpath>
+    </t>
+</templates>
+

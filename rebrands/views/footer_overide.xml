@@ -1,0 +1,38 @@
+<odoo>
+    <!-- Inherit website.layout and override the footer section -->
+    <template id="footer_custom_rebrands" inherit_id="website.layout" name="Custom Footer">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo" t-ignore="true" t-if="not no_footer">
+                <section class="s_text_block pt40 pb16" data-snippet="s_text_block" data-name="Text">
+                    <div class="container">
+                        <div class="row">
+                            <!-- Example custom content -->
+                            <div class="col-lg-12 text-center">
+                                <h5>EnterpriseOne © 2025</h5>
+                                <p>Powered by BigFix Technologies</p>
+                                <p><a href="https://wa.link/nixhlj" style="color: #D3D3D3 !important;">Contact Us</a> | <a href="https://enterpriseone.com.ng/feature" style="color: #D3D3D3 !important;">Features</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="footer_custom_no_copyright" inherit_id="website.layout" name="Footer No Copyright" active="False">
+    <xpath expr="//div[hasclass('o_footer_copyright')]" position="before">
+        <t t-set="no_copyright" t-value="True"/>
+    </xpath>
+</template>
+
+<template id="footer_custom_copyright_company_name" inherit_id="website.layout">
+    <xpath expr="//footer//span[hasclass('o_footer_copyright_name')]" position="replace">
+        <span class="o_footer_copyright_name me-2">Copyright &amp;copy; BigFix Technologies</span>
+    </xpath>
+</template>
+
+<template id="brand_custom_promotion" inherit_id="web.brand_promotion" name="Brand Custom Promotion">
+    <xpath expr="//t[@t-call='web.brand_promotion_message']" position="replace">
+    </xpath>
+</template>
+</odoo>

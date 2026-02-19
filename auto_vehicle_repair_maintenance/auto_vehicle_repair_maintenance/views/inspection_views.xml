@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Quotation Line Tree View -->
+        <record id="view_quotation_line_tree" model="ir.ui.view">
+            <field name="name">auto.vehicle.repair.quotation.line.tree</field>
+            <field name="model">auto.vehicle.repair.quotation.line</field>
+            <field name="arch" type="xml">
+                <list>
+                    <field name="product_id"/>
+                    <field name="description"/>
+                    <field name="quantity"/>
+                    <field name="qty_available" string="Qty on Hand" readonly="1"/>
+                    <field name="unit_price"/>
+                    <field name="subtotal" readonly="1"/>
+                    <field name="is_labor"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Quotation Line Form View -->
+        <record id="view_quotation_line_form" model="ir.ui.view">
+            <field name="name">auto.vehicle.repair.quotation.line.form</field>
+            <field name="model">auto.vehicle.repair.quotation.line</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="product_id"/>
+                                <field name="description" required="1"/>
+                                <field name="quantity"/>
+                                <field name="qty_available" string="Quantity on Hand" readonly="1"/>
+                                <field name="unit_price"/>
+                                <field name="subtotal" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="is_labor"/>
+                                <field name="labor_hours" invisible="not is_labor"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Inspection Tree View -->
+        <record id="view_inspection_tree" model="ir.ui.view">
+            <field name="name">auto.vehicle.repair.inspection.tree</field>
+            <field name="model">auto.vehicle.repair.inspection</field>
+            <field name="arch" type="xml">
+                <list string="Inspections" decoration-info="state=='quotation'" decoration-success="state=='accepted'" decoration-danger="state=='cancelled'">
+                    <field name="name"/>
+                    <field name="vehicle_id"/>
+                    <field name="customer_id"/>
+                    <field name="state" widget="badge"/>
+                    <field name="inspection_date"/>
+                    <field name="quotation_amount"/>
+                    <field name="work_order_id"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Inspection Form View -->
+        <record id="view_inspection_form" model="ir.ui.view">
+            <field name="name">auto.vehicle.repair.inspection.form</field>
+            <field name="model">auto.vehicle.repair.inspection</field>
+            <field name="arch" type="xml">
+                <form string="Inspection">
+                    <header>
+                        <button name="action_complete_inspection" string="Complete Inspection" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                        <button name="action_create_quotation" string="Create Quotation" type="object" class="oe_highlight" invisible="state not in ('draft', 'completed')"/>
+                        <button name="action_accept_quotation" string="Accept Quotation" type="object" class="oe_highlight" invisible="state != 'quotation'"/>
+                        <button name="%(action_inspection_report)d" string="Print Inspection" type="action" class="btn-secondary" invisible="state == 'draft'"/>
+                        <button name="action_cancel" string="Cancel" type="object" invisible="state in ('accepted', 'work_order_created', 'cancelled')"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,completed,quotation,accepted"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_view_quotation" type="object" class="oe_stat_button" icon="fa-file-text-o" invisible="not sale_order_id">
+                                <field name="sale_order_id" widget="statinfo" string="Quotation"/>
+                            </button>
+                            <button name="action_view_work_order" type="object" class="oe_stat_button" icon="fa-wrench" invisible="not work_order_id">
+                                <field name="work_order_id" widget="statinfo" string="Work Order"/>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="vehicle_id" options="{'no_create': False}"/>
+                                <field name="customer_id"/>
+                                <field name="sale_order_id" invisible="not sale_order_id" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="inspection_date"/>
+                                <field name="inspected_by_id"/>
+                                <field name="inspection_mileage"/>
+                                <field name="overall_condition" invisible="state == 'draft'"/>
+                                <field name="quotation_amount" invisible="state == 'draft'" readonly="1"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Inspection Details" name="inspection_details">
+                                <group>
+                                    <group string="General Inspection">
+                                        <field name="inspection_date"/>
+                                        <field name="inspected_by_id"/>
+                                        <field name="inspection_mileage"/>
+                                        <field name="overall_condition"/>
+                                        <field name="estimated_repair_cost"/>
+                                        <field name="inspection_images" widget="many2many_binary"/>
+                                    </group>
+                                    <group string="Engine">
+                                        <field name="engine_condition"/>
+                                        <field name="engine_oil_level"/>
+                                        <field name="engine_coolant_level"/>
+                                        <field name="engine_belts_condition"/>
+                                        <field name="engine_notes" nolabel="1" placeholder="Engine inspection notes..."/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <group string="Brakes">
+                                        <field name="brakes_condition"/>
+                                        <field name="brake_pads_thickness"/>
+                                        <field name="brake_fluid_level"/>
+                                        <field name="brakes_notes" nolabel="1" placeholder="Brakes inspection notes..."/>
+                                    </group>
+                                    <group string="Tires">
+                                        <field name="tires_condition"/>
+                                        <field name="tire_pressure_front"/>
+                                        <field name="tire_pressure_rear"/>
+                                        <field name="tire_tread_depth"/>
+                                        <field name="tires_notes" nolabel="1" placeholder="Tires inspection notes..."/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <group string="Electrical">
+                                        <field name="electrical_condition"/>
+                                        <field name="battery_voltage"/>
+                                        <field name="battery_condition"/>
+                                        <field name="lights_condition"/>
+                                        <field name="electrical_notes" nolabel="1" placeholder="Electrical inspection notes..."/>
+                                    </group>
+                                    <group string="Body &amp; Exterior">
+                                        <field name="body_condition"/>
+                                        <field name="paint_condition"/>
+                                        <field name="windshield_condition"/>
+                                        <field name="body_notes" nolabel="1" placeholder="Body inspection notes..."/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <group string="Suspension &amp; Steering">
+                                        <field name="suspension_condition"/>
+                                        <field name="steering_condition"/>
+                                        <field name="suspension_notes" nolabel="1" placeholder="Suspension inspection notes..."/>
+                                    </group>
+                                    <group string="Air Conditioning">
+                                        <field name="ac_condition"/>
+                                        <field name="ac_notes" nolabel="1" placeholder="AC inspection notes..."/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <group string="General Notes">
+                                        <field name="inspection_notes" nolabel="1" placeholder="General inspection notes and findings..."/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Quotation Lines" name="quotation_lines" invisible="state == 'draft'">
+                                <field name="quotation_line_ids" nolabel="1" context="{'default_inspection_id': id}"/>
+                            </page>
+                            <page string="Maintenance" name="maintenance" invisible="not is_maintenance">
+                                <group>
+                                    <group>
+                                        <field name="is_maintenance" readonly="1"/>
+                                        <field name="periodic_maintenance_interval" readonly="1"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Inspection Search View -->
+        <record id="view_inspection_search" model="ir.ui.view">
+            <field name="name">auto.vehicle.repair.inspection.search</field>
+            <field name="model">auto.vehicle.repair.inspection</field>
+            <field name="arch" type="xml">
+                <search string="Search Inspections">
+                    <field name="name"/>
+                    <field name="vehicle_id"/>
+                    <field name="customer_id"/>
+                    <field name="state"/>
+                    <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                    <filter string="Completed" name="completed" domain="[('state', '=', 'completed')]"/>
+                    <filter string="Quotation" name="quotation" domain="[('state', '=', 'quotation')]"/>
+                    <filter string="Accepted" name="accepted" domain="[('state', '=', 'accepted')]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="State" name="group_state" context="{'group_by': 'state'}"/>
+                        <filter string="Vehicle" name="group_vehicle" context="{'group_by': 'vehicle_id'}"/>
+                        <filter string="Customer" name="group_customer" context="{'group_by': 'customer_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Inspection Action -->
+        <record id="action_inspection" model="ir.actions.act_window">
+            <field name="name">Inspections</field>
+            <field name="res_model">auto.vehicle.repair.inspection</field>
+            <field name="view_mode">list,form</field>
+            <field name="context">{'default_state': 'draft'}</field>
+        </record>
+    </data>
+</odoo>
+

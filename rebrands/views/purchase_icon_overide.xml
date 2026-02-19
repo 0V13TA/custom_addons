@@ -1,0 +1,7 @@
+<odoo>
+    <data>
+        <record id="purchase.menu_purchase_root" model="ir.ui.menu">
+            <field name="web_icon">rebrands,static/description/icon.png</field>
+        </record>
+    </data>
+</odoo>

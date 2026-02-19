@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Purchase Request Menu under Purchase Module -->
+    <menuitem
+        id="menu_purchase_request_under_purchase"
+        name="Purchase Request"
+        parent="purchase.menu_purchase_root"
+        action="action_h_jubran_purchase_request"
+        sequence="1"
+    />
+    
+    <!-- Petty Cash Menu under Purchase Module -->
+    <menuitem
+        id="menu_petty_cash_under_purchase"
+        name="Petty Cash"
+        parent="purchase.menu_purchase_root"
+        action="action_petty_cash"
+        sequence="2"
+    />
+    
+</odoo>
+

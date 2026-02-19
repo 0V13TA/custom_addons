@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <!-- Override POS Navbar to use custom logo -->
+    <t t-name="point_of_sale.Navbar" t-inherit="point_of_sale.Navbar" t-inherit-mode="extension" owl="1">
+        <!-- Modify the src attribute of the logo image to use custom logo -->
+        <xpath expr="//img[contains(@src, '/web/static/img/logo.png')]" position="attributes">
+            <attribute name="t-att-src">pos.company_logo_base64 || '/web/static/img/logo.png'</attribute>
+        </xpath>
+    </t>
+</templates>
+

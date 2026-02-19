@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+<t t-name="enterpriseone_account_dashboard.DashboardTemplate">
+    <div class="stats-dashboard">
+        <h2 class="mb-4 text-center">Business Financial Overview</h2>
+
+        <div class="stats-container">
+            <!-- Total Income -->
+            <div class="stat-card blue">
+                <div class="card-header">
+                    <div class="card-icon">💰</div>
+                    <div class="card-title">Total Income</div>
+                </div>
+                <div class="card-content">
+                    <div class="card-value" t-esc="formatAmount(state.totalIncome)"/>
+                    <div class="card-subtitle">Fiscal Year</div>
+                </div>
+            </div>
+
+            <!-- Today's Income -->
+            <div class="stat-card green">
+                <div class="card-header">
+                    <div class="card-icon">📈</div>
+                    <div class="card-title">Today's Income</div>
+                </div>
+                <div class="card-content">
+                    <div class="card-value" t-esc="formatAmount(state.todayIncome)"/>
+                    <div class="card-subtitle">Today</div>
+                </div>
+            </div>
+
+            <!-- Total Expense -->
+            <div class="stat-card red">
+                <div class="card-header">
+                    <div class="card-icon">💸</div>
+                    <div class="card-title">Total Expense</div>
+                </div>
+                <div class="card-content">
+                    <div class="card-value" t-esc="formatAmount(state.totalExpense)"/>
+                    <div class="card-subtitle">Fiscal Year</div>
+                </div>
+            </div>
+
+            <!-- Today's Expense -->
+            <div class="stat-card orange">
+                <div class="card-header">
+                    <div class="card-icon">📉</div>
+                    <div class="card-title">Today's Expense</div>
+                </div>
+                <div class="card-content">
+                    <div class="card-value" t-esc="formatAmount(state.todayExpense)"/>
+                    <div class="card-subtitle">Today</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Income vs Expense Chart -->
+        <div class="mt-5">
+            <h4 class="mb-4 text-center">Income vs Expense Overview</h4>
+            <canvas t-ref="chartCanvas" width="400" height="200" class="mx-auto d-block"></canvas>
+        </div>
+
+        <div class="mt-5 text-center text-muted">
+            Data from posted journal entries in cash/bank and expense accounts.
+        </div>
+    </div>
+</t>
+
+</templates>

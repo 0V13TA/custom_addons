@@ -1,0 +1,49 @@
+<odoo>
+    <template id="dashboard_page" name="Custom Dashboard Page" t-name="dashboard_page">
+        <div class="o_action_manager">
+            <div class="container-fluid mt-4">
+                <h2 class="text-center mb-4">Welcome to Your Custom Dashboard</h2>
+                <div class="row text-center">
+                    <!-- Library -->
+                    <div class="col-md-4 mb-4">
+                        <div class="card border-primary bg-light h-100 shadow-sm">
+                            <a t-attf="#" class="text-decoration-none text-primary dashboard-link"
+                               data-action="library_module" t-on-click="onDashboardLinkClick">
+                                <div class="card-body">
+                                    <i class="fa fa-book fa-2x text-primary mb-3"/><br/>
+                                    <strong>Library</strong>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Accounting -->
+                    <div class="col-md-4 mb-4">
+                        <div class="card border-primary bg-light h-100 shadow-sm">
+                            <a t-attf="#" class="text-decoration-none text-primary dashboard-link"
+                               data-action="accounting_module" t-on-click="onDashboardLinkClick">
+                                <div class="card-body">
+                                    <i class="fa fa-calculator fa-2x text-primary mb-3"/><br/>
+                                    <strong>Accounting</strong>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Transportation -->
+                    <div class="col-md-4 mb-4">
+                        <div class="card border-primary bg-light h-100 shadow-sm">
+                            <a t-attf="#" class="text-decoration-none text-primary dashboard-link"
+                               data-action="transportation_module" t-on-click="onDashboardLinkClick">
+                                <div class="card-body">
+                                    <i class="fa fa-truck fa-2x text-primary mb-3"/><br/>
+                                    <strong>Transportation</strong>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+</odoo>

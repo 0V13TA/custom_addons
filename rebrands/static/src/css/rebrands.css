@@ -1,0 +1,14 @@
+/* Target the Odoo logo on login and database selector page */
+.o_login_logo img,
+.o_database_selector .o_logo img {
+    content: url('/rebrands/static/src/img/logo.svg') !important;
+    max-width: 190px !important;
+    height: auto !important;
+}
+
+/* Optional: Adjust container if needed */
+.o_database_selector .o_logo,
+.o_login .o_login_logo {
+    text-align: center;
+    margin-bottom: 2rem;
+}

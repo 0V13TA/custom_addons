@@ -1,0 +1,116 @@
+<odoo>
+    <data>
+        
+        <!-- Project Form View -->
+        <record id="view_h_jubran_project_form" model="ir.ui.view">
+            <field name="name">h_jubran.project.form</field>
+            <field name="model">h_jubran.project</field>
+            <field name="arch" type="xml">
+                <form string="Project">
+                    <header>
+                        <!-- State transition buttons -->
+                        <button name="action_progress" string="Start Progress" type="object" invisible="state != 'draft'" class="oe_highlight"/>
+                        <button name="action_done" string="Mark as Done" type="object" invisible="state != 'progress'" class="oe_highlight"/>
+                        <button name="action_draft" string="Reset to Draft" type="object" invisible="state not in ('progress', 'done')"/>
+
+                        <field name="state" widget="statusbar" statusbar_visible="draft,progress,done"/>
+                    </header>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_boq_summaries"
+                                type="object"
+                                class="oe_stat_button"
+                                icon="fa-list-ul"
+                                context="{'default_project_id': id}">
+                            <field name="boq_summary_count" widget="statinfo" string="BOQ Summaries"/>
+                        </button>
+                    </div>
+                    <sheet>
+                        <!-- Hide boq_summary_count from auto-detection to prevent duplicate button in statusbar -->
+                        <field name="boq_summary_count" invisible="1"/>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name" placeholder="e.g. New Office Building Project"/></h1>
+                            <field name="code" readonly="1" class="oe_inline oe_text_muted"/>
+                        </div>
+
+                        <group>
+                            <group>
+                                <field name="site" domain="[('usage', '=', 'internal')]"/> 
+                                <field name="client_id"/>
+                                <field name="project_manager_id"/>
+                                <field name="budget" widget="monetary"/>
+                            </group>
+                            <group>
+                                <field name="start_date"/>
+                                <field name="end_date"/>
+                            </group>
+                        </group>
+                        
+                        <notebook>
+                            <page name="boq_summary" string="BOQ Summary">
+                                <field name="boq_summary_ids" nolabel="1">
+                                    <list string="BOQ Summaries" create="0" edit="0">
+                                        <field name="name"/>
+                                        <field name="total_amount"/>
+                                        <field name="total_actual_amount"/>
+                                        <field name="create_date"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page name="description" string="Description">
+                                <field name="description"/>
+                            </page>
+                            <page name="attachments" string="Attachments">
+                                <field name="attachment_ids" widget="many2many_binary"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Project Tree View -->
+        <record id="view_h_jubran_project_list" model="ir.ui.view">
+            <field name="name">h_jubran.project.list</field>
+            <field name="model">h_jubran.project</field>
+            <field name="arch" type="xml">
+                <list string="Projects" decoration-success="state == 'done'" decoration-info="state == 'progress'" decoration-muted="state == 'draft'">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="project_manager_id"/>
+                    <field name="client_id"/>
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                    <field name="budget" sum="Total Budget"/>
+                    <field name="state" widget="badge"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Project Search View -->
+        <record id="view_h_jubran_project_search" model="ir.ui.view">
+            <field name="name">h_jubran.project.search</field>
+            <field name="model">h_jubran.project</field>
+            <field name="arch" type="xml">
+                <search string="Search Project">
+                    <field name="name" string="Project"/>
+                    <field name="code"/>
+                    <field name="project_manager_id"/>
+                    <field name="client_id"/>
+                    <field name="state"/>
+                    <filter string="My Projects" name="my_projects" domain="[('project_manager_id', '=', uid)]"/>
+                    <separator/>
+                    <filter string="Draft" name="state_draft" domain="[('state', '=', 'draft')]"/>
+                    <filter string="In Progress" name="state_progress" domain="[('state', '=', 'progress')]"/>
+                    <filter string="Done" name="state_done" domain="[('state', '=', 'done')]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Project Manager" name="groupby_manager" context="{'group_by':'project_manager_id'}"/>
+                        <filter string="Client" name="groupby_client" context="{'group_by':'client_id'}"/>
+                        <filter string="Status" name="groupby_state" context="{'group_by':'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Purchase Request Form View -->
+    <record id="view_h_jubran_purchase_request_form" model="ir.ui.view">
+        <field name="name">h.jubran.purchase.request.form</field>
+        <field name="model">h_jubran.purchase.request</field>
+        <field name="arch" type="xml">
+            <form string="Purchase Request">
+                <header>
+                    <button name="button_to_approve" string="Submit for Approval" type="object" 
+                            invisible="state != 'draft'" class="oe_highlight"/>
+                    <button name="button_approved_1" string="Approve (Level 1)" type="object" 
+                            invisible="state != 'to_approve_1'" class="oe_highlight"
+                            groups="h_jubran_prd.group_purchase_request_approver_1"/>
+                    <button name="button_approved_2" string="Approve (Level 2)" type="object" 
+                            invisible="state != 'to_approve_2'" class="oe_highlight"
+                            groups="h_jubran_prd.group_purchase_request_approver_1,h_jubran_prd.group_purchase_request_approver_2"/>
+                    <button name="button_rejected" string="Reject" type="object" 
+                            invisible="state not in ('to_approve_1', 'to_approve_2')"
+                            groups="h_jubran_prd.group_purchase_request_approver_1,h_jubran_prd.group_purchase_request_approver_2"/>
+                    <button name="button_in_progress" string="In Progress" type="object" 
+                            invisible="state != 'approved'"/>
+                    <button name="button_done" string="Done" type="object" 
+                            invisible="state != 'in_progress'"/>
+                    <button name="button_draft" string="Reset to Draft" type="object" 
+                            invisible="state != 'rejected'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,to_approve_1,to_approve_2,approved,in_progress,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_make_purchase_order" type="object" 
+                                class="oe_stat_button" icon="fa-shopping-cart"
+                                invisible="state not in ['approved', 'in_progress']"
+                                string="Create RFQ">
+                            <field name="line_count" widget="statinfo" string="Lines"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="date_start"/>
+                            <field name="requested_by" required="1"/>
+                            <field name="assigned_to"/>
+                        </group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="project_id"/>
+                            <field name="project_site" readonly="1"/>
+                            <field name="group_id" string="Procurement Group"/>
+                            <field name="origin"/>
+                        </group>
+                    </group>
+                    <group string="Approval Information">
+                        <group>
+                            <field name="approver_1_id" 
+                                   invisible="state in ('approved', 'in_progress', 'done')"
+                                   required="state == 'draft'"/>
+                            <field name="approver_1_id" readonly="1" 
+                                   invisible="state not in ('approved', 'in_progress', 'done')"/>
+                            <field name="approved_by_1_id" readonly="1"/>
+                            <field name="approval_date_1" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="approver_2_id" 
+                                   invisible="state in ('approved', 'in_progress', 'done')"
+                                   required="state == 'draft'"/>
+                            <field name="approver_2_id" readonly="1" 
+                                   invisible="state not in ('approved', 'in_progress', 'done')"/>
+                            <field name="approved_by_2_id" readonly="1"/>
+                            <field name="approval_date_2" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Products" name="lines">
+                            <field name="line_ids" nolabel="1">
+                                <list string="Purchase Request Lines" editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="name"/>
+                                    <field name="product_qty"/>
+                                    <field name="product_uom_id"/>
+                                    <field name="date_required"/>
+                                    <field name="category_id"/>
+                                    <field name="subcategory_id"/>
+                                    <field name="master_element_id"/>
+                                    <field name="boq_rate" widget="monetary" readonly="1"/>
+                                    <field name="rate" widget="monetary"/>
+                                    <field name="amount" widget="monetary" readonly="1"/>
+                                    <field name="cancelled" invisible="1"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Description" name="description">
+                            <field name="description" placeholder="Add a description..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Purchase Request List View -->
+    <record id="view_h_jubran_purchase_request_list" model="ir.ui.view">
+        <field name="name">h.jubran.purchase.request.list</field>
+        <field name="model">h_jubran.purchase.request</field>
+        <field name="arch" type="xml">
+            <list string="Purchase Requests">
+                <field name="name"/>
+                <field name="date_start"/>
+                <field name="requested_by"/>
+                <field name="assigned_to"/>
+                <field name="approver_1_id"/>
+                <field name="approver_2_id"/>
+                <field name="project_id"/>
+                <field name="state" widget="badge" decoration-success="state=='done'" 
+                       decoration-info="state=='in_progress'" 
+                       decoration-warning="state in ('to_approve_1', 'to_approve_2')"
+                       decoration-danger="state=='rejected'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Purchase Request Search View -->
+    <record id="view_h_jubran_purchase_request_search" model="ir.ui.view">
+        <field name="name">h.jubran.purchase.request.search</field>
+        <field name="model">h_jubran.purchase.request</field>
+        <field name="arch" type="xml">
+            <search string="Purchase Requests">
+                <field name="name"/>
+                <field name="requested_by"/>
+                <field name="assigned_to"/>
+                <field name="project_id"/>
+                <field name="state"/>
+                <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="To Approve (Level 1)" name="to_approve_1" domain="[('state', '=', 'to_approve_1')]"/>
+                <filter string="To Approve (Level 2)" name="to_approve_2" domain="[('state', '=', 'to_approve_2')]"/>
+                <filter string="Approved" name="approved" domain="[('state', '=', 'approved')]"/>
+                <filter string="In Progress" name="in_progress" domain="[('state', '=', 'in_progress')]"/>
+                <filter string="Done" name="done" domain="[('state', '=', 'done')]"/>
+                <filter string="Rejected" name="rejected" domain="[('state', '=', 'rejected')]"/>
+                <separator/>
+                <filter string="My Requests" name="my_requests" domain="[('requested_by', '=', uid)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="State" name="group_state" context="{'group_by': 'state'}"/>
+                    <filter string="Requested By" name="group_requested_by" context="{'group_by': 'requested_by'}"/>
+                    <filter string="Project" name="group_project" context="{'group_by': 'project_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Purchase Request Action -->
+    <record id="action_h_jubran_purchase_request" model="ir.actions.act_window">
+        <field name="name">Purchase Requests</field>
+        <field name="res_model">h_jubran.purchase.request</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_h_jubran_purchase_request_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new purchase request
+            </p>
+            <p>
+                A purchase request is an instruction to Purchasing to procure
+                materials or services.
+            </p>
+        </field>
+    </record>
+
+    <!-- Wizard Form View -->
+    <record id="view_h_jubran_pr_make_purchase_order_form" model="ir.ui.view">
+        <field name="name">h.jubran.pr.make.purchase.order.form</field>
+        <field name="model">h_jubran.pr.make.purchase.order</field>
+        <field name="arch" type="xml">
+            <form string="Make Purchase Order">
+                <group>
+                    <field name="item_ids" nolabel="1">
+                        <list string="Purchase Request Lines" editable="bottom">
+                            <field name="line_id" readonly="1"/>
+                            <field name="product_id"/>
+                            <field name="name"/>
+                            <field name="product_qty"/>
+                            <field name="product_uom_id"/>
+                        </list>
+                    </field>
+                </group>
+                <footer>
+                    <button string="Create Purchase Order" name="make_purchase_order" 
+                            type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Wizard Action -->
+    <record id="action_h_jubran_pr_make_purchase_order" model="ir.actions.act_window">
+        <field name="name">Make Purchase Order</field>
+        <field name="res_model">h_jubran.pr.make.purchase.order</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+</odoo>
+

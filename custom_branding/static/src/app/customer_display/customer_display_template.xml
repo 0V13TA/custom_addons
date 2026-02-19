@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <!-- Override Customer Display templates to use custom POS logo -->
+    <t t-name="point_of_sale.CustomerFacingDisplayNoOrder" t-inherit="point_of_sale.CustomerFacingDisplayNoOrder" t-inherit-mode="extension" owl="1">
+        <!-- Replace company logo with custom POS logo if available -->
+        <xpath expr="//div[@class='pos-company_logo'][1]" position="replace">
+            <div t-if="pos.company.pos_logo" class="pos-company_logo" t-attf-style="background-image:url(data:image/png;base64,{{pos.company.pos_logo}})"/>
+            <div t-if="!pos.company.pos_logo" class="pos-company_logo" t-attf-style="background-image:url(/logo?company=#{pos.company.id})"/>
+        </xpath>
+    </t>
+    
+    <t t-name="point_of_sale.CustomerFacingDisplayOrder" t-inherit="point_of_sale.CustomerFacingDisplayOrder" t-inherit-mode="extension" owl="1">
+        <!-- Replace all company logos with custom POS logo if available -->
+        <xpath expr="//div[@class='pos-company_logo']" position="replace">
+            <div t-if="pos.company.pos_logo" class="pos-company_logo" t-attf-style="background-image:url(data:image/png;base64,{{pos.company.pos_logo}})"/>
+            <div t-if="!pos.company.pos_logo" class="pos-company_logo" t-attf-style="background-image:url(/logo?company=#{pos.company.id})"/>
+        </xpath>
+        
+        <!-- Replace "Powered by Odoo" with custom footer text if available -->
+        <xpath expr="//div[@class='pos-odoo_logo_container']" position="replace">
+            <t t-if="pos.company.pos_receipt_footer_text">
+                <div class="pos-odoo_logo_container">
+                    <span t-esc="pos.company.pos_receipt_footer_text"/>
+                </div>
+            </t>
+            <t t-else="">
+                <div class="pos-odoo_logo_container">
+                    <span>Powered by </span>
+                    <div class="logo" />
+                </div>
+            </t>
+        </xpath>
+    </t>
+</templates>
+

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Override the frontend layout header -->
+    <template id="layout" inherit_id="web.frontend_layout">
+        <xpath expr="//header" position="replace">
+            <header class="o_main_header hemis_header" id="top" data-anchor="true">
+                <!-- <div class="hemis_logo">
+                    <img t-att-src="'/hemis_theme/static/src/img/logo.png'" alt="Logo"/>
+                </div> -->
+                <!-- <div class="hemis_title">
+                    <h1>Integrated Higher Education Management Information System</h1>
+                    <h2>(HEMIS)</h2>
+                </div> -->
+                <div class="hemis_user" t-if="request.session.uid">
+                    <div class="user_info">
+                        <span class="user_name" t-esc="request.env['res.users'].browse(request.session.uid).name"/>
+                        <a href="/web/session/logout" class="o_logout">
+                            <i class="fa fa-sign-out"/> Logout
+                        </a>
+                    </div>
+                </div>
+            </header>
+        </xpath>
+    </template>
+    
+    <!-- Modified to use the correct target for webclient_bootstrap -->
+    <template id="webclient_bootstrap_extension" inherit_id="web.webclient_bootstrap">
+        <xpath expr="//t[@t-set='body_classname']" position="before">
+            <!-- <div class="hemis_custom_header" style="background-color: #2866a8; color: white; padding: 10px 0;">
+                <div class="container-fluid">
+                    <div class="row align-items-center">
+                        <div class="col text-center">
+                            <h1 style="font-size: 24px; margin: 0;">Integrated Higher Education Management Information System (HEMIS)</h1>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </xpath>
+    </template>
+    
+    <!-- Custom menu block (for dashboard or other templates) -->
+    <template id="hemis_custom_menu" name="HEMIS Menu">
+        <div class="o_sub_menu hemis_menu">
+            <t t-set="is_admin" t-value="request.env.user.has_group('base.group_system')"/>
+
+            <div t-if="is_admin" class="admin_menu">
+                <div class="menu_header">Administrator Menu</div>
+                <ul class="menu_items">
+                    <li class="menu_item"><a href="/web#menu_id=dash">Dashboard</a></li>
+                    <li class="menu_item"><a href="/web#menu_id=apps">Apps Management</a></li>
+                    <li class="menu_item"><a href="/web#menu_id=users">User Management</a></li>
+                    <li class="menu_item"><a href="/web#menu_id=settings">System Settings</a></li>
+                    <li class="menu_item"><a href="/web#menu_id=accounting">Accounting</a></li>
+                </ul>
+            </div>
+
+            <div t-if="not is_admin" class="user_menu">
+                <div class="menu_header">User Menu</div>
+                <ul class="menu_items">
+                    <li class="menu_item"><a href="/web#menu_id=dashboard">Dashboard</a></li>
+                    <li class="menu_item"><a href="/web#menu_id=accounting">Accounting</a></li>
+                    <li class="menu_item"><a href="/web#menu_id=reports">Reports</a></li>
+                    <li class="menu_item"><a href="/web#menu_id=documents">Documents</a></li>
+                </ul>
+            </div>
+        </div>
+    </template>
+</odoo>

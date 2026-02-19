@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Admin Dashboard Template -->
+    <template id="admin_dashboard" name="Admin Dashboard">
+        <t t-call="web.layout">
+            <t t-set="head">
+                <t t-call-assets="web.assets_common" t-js="false"/>
+                <t t-call-assets="web.assets_backend" t-js="false"/>
+            </t>
+            <t t-set="body_classname" t-value="'o_web_client'"/>
+            <div class="o_main hemis_admin_dashboard">
+                <div class="dashboard_header">
+                    <h1>Administration Dashboard</h1>
+                    <div class="date_display" t-esc="context_today().strftime('%B %d, %Y')"/>
+                </div>
+                
+                <div class="dashboard_grid">
+                    <!-- System Overview Card -->
+                    <div class="dashboard_card system_overview">
+                        <div class="card_title">System Overview</div>
+                        <div class="card_content">
+                            <div class="stat_item">
+                                <div class="stat_label">Active Users</div>
+                                <div class="stat_value" t-esc="user_count"/>
+                            </div>
+                            <div class="stat_item">
+                                <div class="stat_label">Installed Apps</div>
+                                <div class="stat_value" t-esc="app_count"/>
+                            </div>
+                            <div class="stat_item">
+                                <div class="stat_label">Database Size</div>
+                                <div class="stat_value" t-esc="db_size"/>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Recent Activities Card -->
+                    <div class="dashboard_card recent_activities">
+                        <div class="card_title">Recent Activities</div>
+                        <div class="card_content">
+                            <ul class="activity_list">
+                                <t t-foreach="activities" t-as="activity">
+                                    <li class="activity_item">
+                                        <div class="activity_time" t-esc="activity.get('time')"/>
+                                        <div class="activity_desc" t-esc="activity.get('description')"/>
+                                        <div class="activity_user" t-esc="activity.get('user')"/>
+                                    </li>
+                                </t>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Actions Card -->
+                    <div class="dashboard_card quick_actions">
+                        <div class="card_title">Quick Actions</div>
+                        <div class="card_content">
+                            <div class="action_buttons">
+                                <a href="/web#menu_id=users" class="action_button">
+                                    <i class="fa fa-users"/> Manage Users
+                                </a>
+                                <a href="/web#menu_id=apps" class="action_button">
+                                    <i class="fa fa-cubes"/> Manage Apps
+                                </a>
+                                <a href="/web#menu_id=settings" class="action_button">
+                                    <i class="fa fa-cogs"/> System Settings
+                                </a>
+                                <a href="/web/database/manager" class="action_button">
+                                    <i class="fa fa-database"/> Database Manager
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- System Health Card -->
+                    <div class="dashboard_card system_health">
+                        <div class="card_title">System Health</div>
+                        <div class="card_content">
+                            <div class="health_status">
+                                <div t-attf-class="status_indicator #{health_status}"/>
+                                <div class="status_label" t-esc="health_label"/>
+                            </div>
+                            <div class="health_details">
+                                <div class="detail_item">
+                                    <div class="detail_label">CPU Usage</div>
+                                    <div class="detail_value" t-esc="cpu_usage"/>
+                                </div>
+                                <div class="detail_item">
+                                    <div class="detail_label">Memory Usage</div>
+                                    <div class="detail_value" t-esc="memory_usage"/>
+                                </div>
+                                <div class="detail_item">
+                                    <div class="detail_label">Disk Space</div>
+                                    <div class="detail_value" t-esc="disk_space"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+    
+    <!-- User Dashboard Template -->
+    <template id="user_dashboard" name="User Dashboard">
+        <t t-call="web.layout">
+            <t t-set="head">
+                <t t-call-assets="web.assets_common" t-js="false"/>
+                <t t-call-assets="web.assets_backend" t-js="false"/>
+            </t>
+            <t t-set="body_classname" t-value="'o_web_client'"/>
+            <div class="o_main hemis_user_dashboard">
+                <div class="dashboard_header">
+                    <h1>Welcome, <t t-esc="user.name"/></h1>
+                    <div class="date_display" t-esc="context_today().strftime('%B %d, %Y')"/>
+                </div>
+                
+                <div class="dashboard_grid">
+                    <!-- User Overview Card -->
+                    <div class="dashboard_card user_overview">
+                        <div class="card_title">Your Overview</div>
+                        <div class="card_content">
+                            <div class="stat_item">
+                                <div class="stat_label">My Documents</div>
+                                <div class="stat_value" t-esc="doc_count"/>
+                            </div>
+                            <div class="stat_item">
+                                <div class="stat_label">Recent Reports</div>
+                                <div class="stat_value" t-esc="report_count"/>
+                            </div>
+                            <div class="stat_item">
+                                <div class="stat_label">Notifications</div>
+                                <div class="stat_value" t-esc="notification_count"/>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Recent Documents Card -->
+                    <div class="dashboard_card recent_documents">
+                        <div class="card_title">Recent Documents</div>
+                        <div class="card_content">
+                            <ul class="document_list">
+                                <t t-foreach="documents" t-as="document">
+                                    <li class="document_item">
+                                        <div class="document_icon">
+                                            <i t-attf-class="fa #{document.get('icon')}"/>
+                                        </div>
+                                        <div class="document_info">
+                                            <div class="document_name" t-esc="document.get('name')"/>
+                                            <div class="document_date" t-esc="document.get('date')"/>
+                                        </div>
+                                        <div class="document_actions">
+                                            <a t-att-href="document.get('url')" class="document_action">
+                                                <i class="fa fa-eye"/> View
+                                            </a>
+                                        </div>
+                                    </li>
+                                </t>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Actions Card -->
+                    <div class="dashboard_card quick_actions">
+                        <div class="card_title">Quick Actions</div>
+                        <div class="card_content">
+                            <div class="action_buttons">
+                                <a href="/web#menu_id=documents" class="action_button">
+                                    <i class="fa fa-file-text"/> My Documents
+                                </a>
+                                <a href="/web#menu_id=accounting" class="action_button">
+                                    <i class="fa fa-money"/> Accounting
+                                </a>
+                                <a href="/web#menu_id=reports" class="action_button">
+                                    <i class="fa fa-bar-chart"/> Reports
+                                </a>
+                                <a href="/web/account" class="action_button">
+                                    <i class="fa fa-user"/> My Account
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Upcoming Events Card -->
+                    <div class="dashboard_card upcoming_events">
+                        <div class="card_title">Upcoming Events</div>
+                        <div class="card_content">
+                            <ul class="event_list">
+                                <t t-foreach="events" t-as="event">
+                                    <li class="event_item">
+                                        <div class="event_date" t-esc="event.get('date')"/>
+                                        <div class="event_info">
+                                            <div class="event_name" t-esc="event.get('name')"/>
+                                            <div class="event_desc" t-esc="event.get('description')"/>
+                                        </div>
+                                    </li>
+                                </t>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

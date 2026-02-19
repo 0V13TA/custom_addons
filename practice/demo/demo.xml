@@ -1,0 +1,106 @@
+<odoo>
+  <data>
+    <record id="subject_math" model="practice.subject">
+      <field name="name">Mathematics</field>
+      <field name="code">MTH101</field>
+      <field name="description">General Mathematics for Junior Secondary.</field>
+    </record>
+
+    <record id="subject_english" model="practice.subject">
+      <field name="name">English Language</field>
+      <field name="code">ENG101</field>
+      <field name="description">Grammar and Composition.</field>
+    </record>
+
+    <record id="subject_physics" model="practice.subject">
+      <field name="name">Physics</field>
+      <field name="code">PHY101</field>
+      <field name="description">Introductory Physics.</field>
+    </record>
+
+    <record id="partner_mr_john" model="res.partner">
+      <field name="name">Mr. John Doe</field>
+      <field name="email">john.doe@school.example.com</field>
+      <field name="lga">Ikeja</field>
+    </record>
+
+    <record id="partner_mrs_jane" model="res.partner">
+      <field name="name">Mrs. Jane Smith</field>
+      <field name="email">jane.smith@school.example.com</field>
+      <field name="lga">Surulere</field>
+    </record>
+
+    <record id="partner_student_mike" model="res.partner">
+      <field name="name">Mike Ross</field>
+      <field name="lga">Eti-Osa</field>
+    </record>
+
+    <record id="partner_student_rachel" model="res.partner">
+      <field name="name">Rachel Zane</field>
+      <field name="lga">Yaba</field>
+    </record>
+
+    <record id="partner_student_harvey" model="res.partner">
+      <field name="name">Harvey Specter</field>
+      <field name="lga">Lekki</field>
+    </record>
+
+    <record id="partner_guarantor_grandma" model="res.partner">
+      <field name="name">Grandma Ross</field>
+      <field name="phone">08012345678</field>
+    </record>
+
+    <record id="partner_guarantor_robert" model="res.partner">
+      <field name="name">Robert Zane</field>
+      <field name="phone">08098765432</field>
+    </record>
+
+    <record id="teacher_john" model="practice.teacher">
+      <field name="partner_id" ref="partner_mr_john" />
+      <field name="subject_ids" eval="[(4, ref('subject_math')), (4, ref('subject_physics'))]" />
+    </record>
+
+    <record id="teacher_jane" model="practice.teacher">
+      <field name="partner_id" ref="partner_mrs_jane" />
+      <field name="subject_ids" eval="[(4, ref('subject_english'))]" />
+    </record>
+
+    <record id="student_mike" model="practice.student">
+      <field name="partner_id" ref="partner_student_mike" />
+      <field name="guarantor_id" ref="partner_guarantor_grandma" />
+      <field name="gpa">3.5</field>
+      <field name="is_border">True</field>
+      <field name="subject_ids" eval="[(4, ref('subject_math')), (4, ref('subject_physics'))]" />
+    </record>
+
+    <record id="student_rachel" model="practice.student">
+      <field name="partner_id" ref="partner_student_rachel" />
+      <field name="guarantor_id" ref="partner_guarantor_robert" />
+      <field name="gpa">4.0</field>
+      <field name="subject_ids" eval="[(4, ref('subject_english')), (4, ref('subject_math'))]" />
+    </record>
+
+    <record id="student_harvey" model="practice.student">
+      <field name="partner_id" ref="partner_student_harvey" />
+      <field name="guarantor_id" ref="partner_guarantor_robert" />
+      <field name="gpa">2.8</field>
+      <field name="is_border">False</field>
+    </record>
+
+    <record id="classroom_jss1" model="practice.classroom">
+      <field name="name">JSS 1 Gold</field>
+      <field name="capacity">30</field>
+      <field name="teacher_id" ref="teacher_john" />
+      <field name="student_ids" eval="[(4, ref('student_mike')), (4, ref('student_rachel'))]" />
+      <field name="state">ongoing</field>
+    </record>
+
+    <record id="classroom_ss3" model="practice.classroom">
+      <field name="name">SS 3 Diamond</field>
+      <field name="capacity">25</field>
+      <field name="teacher_id" ref="teacher_jane" />
+      <field name="student_ids" eval="[(4, ref('student_harvey'))]" />
+      <field name="state">draft</field>
+    </record>
+  </data>
+</odoo>

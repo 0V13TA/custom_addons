@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!-- Override Login Layout - Use custom "Powered by" text from settings -->
+    <template id="login_layout_custom" inherit_id="web.login_layout" name="Login Layout Custom">
+        <!-- Replace "Powered by Odoo" text with custom text from company settings -->
+        <xpath expr="//a[contains(@href, 'odoo.com') and contains(text(), 'Powered by')]" position="replace">
+            <t t-set="company" t-value="None"/>
+            <t t-if="request.db">
+                <t t-set="company" t-value="request.env.get('res.company') and request.env['res.company'].sudo().search([], limit=1) or None"/>
+            </t>
+            <t t-if="company and company.login_powered_by_text">
+                <a t-attf-href="{{ company.login_powered_by_url or '#' }}" target="_blank" class="text-muted">
+                    <t t-esc="company.login_powered_by_text"/>
+                </a>
+            </t>
+            <t t-else="">
+                <!-- Hide if no text is set or no database -->
+            </t>
+        </xpath>
+    </template>
+
+    <!-- Override Brand Promotion Template (used in footer) -->
+    <!--<template id="brand_promotion_custom" inherit_id="web.brand_promotion" name="Brand Promotion Custom">-->
+        <!--<xpath expr="//t[@t-call='web.brand_promotion_message']" position="replace">-->
+            <!-- Option 1: Remove completely -->
+            <!--<t/>-->
+            
+            <!-- Option 2: Replace with custom message (uncomment and customize) -->
+            <!--
+            <div class="o_brand_promotion">
+                <span class="text-muted">Powered by Your Company</span>
+            </div>
+            -->
+        <!--</xpath>-->
+    <!--</template>-->
+
+    <!-- Note: POS Receipt template override is done via JavaScript/OWL template file -->
+    <!-- See static/src/js/pos_receipt_override.js for POS receipt customization -->
+
+</odoo>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Custom styles -->
+    <template id="hemis_backend_layout" inherit_id="web.layout">
+        <xpath expr="//head" position="inside">
+            <style>
+                .o_main_navbar {
+                    background-color: #0165fc !important; /* TU Blue */
+                }
+                .hemis_custom_header {
+                    background-color: #ffffff;
+                    padding: 10px 0;
+                    border-bottom: 2px solid #0165fc;
+                }
+                .hemis_custom_header .hemis_logo{
+                    height: 100% !important;
+                    width: 100% !important;
+                    object-fit: cover !important
+                }
+                .hemis_title {
+                    color: #0165fc;
+                    font-size: 20px;
+                    font-weight: 700;
+                    margin: 0;
+                    align-items: left;
+                }
+                .hemis_university_name {
+                    color: #ffffff !important;
+                    font-size: 14px;
+                }
+                .logo_wrapper{
+                    height: 60px;
+                    width: 180px;
+                }
+                .logo_wrapper .img{
+                    height: 100%;
+                    width: 100%;
+                }
+            </style>
+        </xpath>
+    </template>
+
+    <!-- Inject header with campus info -->
+    <template id="hemis_webclient_header" inherit_id="web.webclient_bootstrap">
+        <xpath expr="//t[@t-set='body_classname']" position="before">
+            <!-- ✅ Safely get current user in template -->
+            <t t-set="current_user" t-value="request.env.user"/>
+            <div class="hemis_custom_header w-100">
+                <div class="container-fluid">
+                    <div class="d-flex align-items-center py-2" style="min-height: 80px;">
+                        <t t-set="company" t-value="request.env.company"/>
+
+                        <t t-if="company">
+                        <div class="d-flex align-items-center">
+                            
+                            <div class="logo_wrapper">
+                            <img src="/enterprise_theme/static/src/img/company_logo.svg"
+                                alt="Company Logo"
+                                class="hemis_logo"/>
+                            </div>
+
+                            <div class="ms-3">
+                                <!-- Company Name -->
+                                <strong>
+                                    <t t-esc="company.name"/>
+                                </strong>
+
+                                <!-- Company Address -->
+                                <div class="hemis_location">
+                                    <t t-set="address_parts" t-value="[]"/>
+
+                                    <t t-if="company.street"
+                                    t-set="address_parts"
+                                    t-value="address_parts + [company.street]"/>
+
+                                    <t t-if="company.city"
+                                    t-set="address_parts"
+                                    t-value="address_parts + [company.city]"/>
+
+                                    <t t-if="company.state_id"
+                                    t-set="address_parts"
+                                    t-value="address_parts + [company.state_id.name]"/>
+
+                                    <t t-if="company.country_id"
+                                    t-set="address_parts"
+                                    t-value="address_parts + [company.country_id.name]"/>
+
+                                    <t t-esc="', '.join(address_parts)" t-if="address_parts"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+
+
+                        <!-- Center Title -->
+                        <div class="col text-center">
+                            <h1 class="hemis_title">
+                                EnterpriseOne
+                            </h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

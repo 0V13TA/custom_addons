@@ -1,0 +1,30 @@
+<odoo>
+    <!-- REMOVED: Duplicate view ID - view_account_move_form_inherit_project is now in account_move_views.xml -->
+    <!-- This was causing conflicts and duplicate invoice lines -->
+    
+    <!-- REMOVED: view_account_move_form_line_inherit_project - This was causing duplicate invoice lines -->
+    <!-- The view was adding fields to invoice_line_ids which conflicted with auto-complete functionality -->
+    <!-- All invoice line fields are now handled in account_move_views.xml -->
+   
+   
+    <record id="view_account_move_form_line_inherit_project_journal_entry" model="ir.ui.view">
+            <field name="name">account.move.form.line.inherit.project.safe.entry</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='line_ids']//field[@name='account_id']" position="after"> 
+                    <field name="project_id" optional="hide" readonly="1" /> 
+                
+                <field name="stage_id" optional="show" 
+                       domain="[('is_sub_stage', '=', False)]"/> 
+                
+                <field name="substage_id" optional="show" 
+                    domain="[('is_sub_stage', '=', True), ('parent_stage_id', '=', stage_id)]" 
+                    context="{'default_is_sub_stage': True}"/>
+                
+                <field name="element_id" optional="show" />
+ 
+                </xpath>
+            </field>
+    </record>
+</odoo>

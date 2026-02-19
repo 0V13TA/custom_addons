@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Work Order Tree View -->
+        <record id="view_work_order_tree" model="ir.ui.view">
+            <field name="name">auto.vehicle.repair.work.order.tree</field>
+            <field name="model">auto.vehicle.repair.work.order</field>
+            <field name="arch" type="xml">
+                <list string="Work Orders" decoration-info="state=='in_progress'" decoration-success="state=='done'" decoration-danger="state=='cancelled'">
+                    <field name="name"/>
+                    <field name="vehicle_id"/>
+                    <field name="customer_id"/>
+                    <field name="state" widget="badge"/>
+                    <field name="assigned_mechanic_id"/>
+                    <field name="start_date"/>
+                    <field name="work_order_done_date"/>
+                    <field name="end_date"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Work Order Form View -->
+        <record id="view_work_order_form" model="ir.ui.view">
+            <field name="name">auto.vehicle.repair.work.order.form</field>
+            <field name="model">auto.vehicle.repair.work.order</field>
+            <field name="arch" type="xml">
+                <form string="Work Order">
+                    <header>
+                        <button name="action_start_work" string="Start Work" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                        <button name="action_work_order_done" string="Work Order Done" type="object" class="oe_highlight" invisible="state != 'in_progress'"/>
+                        <button name="action_finalize" string="Finalize" type="object" class="oe_highlight" invisible="state != 'done'"/>
+                        <button name="%(action_work_order_report)d" string="Print Work Order" type="action" class="btn-secondary" invisible="state == 'draft'"/>
+                        <button name="action_cancel" string="Cancel" type="object" invisible="state in ('done', 'cancelled')"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,done"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_view_inspection" type="object" class="oe_stat_button" icon="fa-search">
+                                <div class="o_stat_info">
+                                    <span class="o_stat_text">Inspection</span>
+                                </div>
+                            </button>
+                            <button name="%(action_work_order_report)d" type="action" class="oe_stat_button" icon="fa-wrench" invisible="state == 'draft'">
+                                <div class="o_stat_info">
+                                    <span class="o_stat_text">Work Order</span>
+                                    <span class="o_stat_value" invisible="not work_order_done_date">✓ Done</span>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="inspection_id" readonly="1"/>
+                                <field name="vehicle_id" readonly="1"/>
+                                <field name="customer_id" readonly="1"/>
+                                <field name="assigned_mechanic_id"/>
+                                <field name="sale_order_id" invisible="not sale_order_id" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="start_date"/>
+                                <field name="work_order_done_date" invisible="not work_order_done_date"/>
+                                <field name="end_date" invisible="state != 'done'"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Work Details" name="work_details">
+                                <group>
+                                    <group string="Work Information">
+                                        <field name="start_date"/>
+                                        <field name="work_order_done_date" invisible="not work_order_done_date"/>
+                                        <field name="end_date" invisible="state != 'done'"/>
+                                        <field name="assigned_mechanic_id"/>
+                                    </group>
+                                    <group string="Work Description">
+                                        <field name="work_description" nolabel="1" placeholder="Describe the work performed..."/>
+                                    </group>
+                                </group>
+                                <group string="Quotation Items" invisible="not inspection_id">
+                                    <field name="inspection_id" invisible="1"/>
+                                    <field name="quotation_amount" readonly="1" invisible="not quotation_amount"/>
+                                    <div invisible="not inspection_id">
+                                        <p><strong>Quotation items are available in the related Inspection record.</strong></p>
+                                        <p>Click on the Inspection smart button to view detailed quotation lines.</p>
+                                    </div>
+                                </group>
+                            </page>
+                            <page string="Inspection Summary" name="inspection_summary">
+                                <group>
+                                    <group string="Engine">
+                                        <field name="engine_condition" readonly="1"/>
+                                        <field name="engine_oil_level" readonly="1"/>
+                                        <field name="engine_coolant_level" readonly="1"/>
+                                        <field name="engine_belts_condition" readonly="1"/>
+                                        <field name="engine_notes" readonly="1" nolabel="1"/>
+                                    </group>
+                                    <group string="Brakes">
+                                        <field name="brakes_condition" readonly="1"/>
+                                        <field name="brake_pads_thickness" readonly="1"/>
+                                        <field name="brake_fluid_level" readonly="1"/>
+                                        <field name="brakes_notes" readonly="1" nolabel="1"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <group string="Tires">
+                                        <field name="tires_condition" readonly="1"/>
+                                        <field name="tire_pressure_front" readonly="1"/>
+                                        <field name="tire_pressure_rear" readonly="1"/>
+                                        <field name="tire_tread_depth" readonly="1"/>
+                                        <field name="tires_notes" readonly="1" nolabel="1"/>
+                                    </group>
+                                    <group string="Electrical">
+                                        <field name="electrical_condition" readonly="1"/>
+                                        <field name="battery_voltage" readonly="1"/>
+                                        <field name="battery_condition" readonly="1"/>
+                                        <field name="lights_condition" readonly="1"/>
+                                        <field name="electrical_notes" readonly="1" nolabel="1"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <group string="Body &amp; Exterior">
+                                        <field name="body_condition" readonly="1"/>
+                                        <field name="paint_condition" readonly="1"/>
+                                        <field name="windshield_condition" readonly="1"/>
+                                        <field name="body_notes" readonly="1" nolabel="1"/>
+                                    </group>
+                                    <group string="Suspension &amp; Steering">
+                                        <field name="suspension_condition" readonly="1"/>
+                                        <field name="steering_condition" readonly="1"/>
+                                        <field name="suspension_notes" readonly="1" nolabel="1"/>
+                                    </group>
+                                </group>
+                                <group>
+                                    <group string="Air Conditioning">
+                                        <field name="ac_condition" readonly="1"/>
+                                        <field name="ac_notes" readonly="1" nolabel="1"/>
+                                    </group>
+                                    <group string="General">
+                                        <field name="overall_condition" readonly="1"/>
+                                        <field name="inspection_mileage" readonly="1"/>
+                                        <field name="inspection_notes" readonly="1" nolabel="1"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Maintenance" name="maintenance" invisible="not is_maintenance">
+                                <group>
+                                    <group>
+                                        <field name="is_maintenance" readonly="1"/>
+                                        <field name="periodic_maintenance_interval" readonly="1"/>
+                                        <field name="next_maintenance_date" readonly="1"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Work Order Search View -->
+        <record id="view_work_order_search" model="ir.ui.view">
+            <field name="name">auto.vehicle.repair.work.order.search</field>
+            <field name="model">auto.vehicle.repair.work.order</field>
+            <field name="arch" type="xml">
+                <search string="Search Work Orders">
+                    <field name="name"/>
+                    <field name="vehicle_id"/>
+                    <field name="customer_id"/>
+                    <field name="state"/>
+                    <field name="assigned_mechanic_id"/>
+                    <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                    <filter string="In Progress" name="in_progress" domain="[('state', '=', 'in_progress')]"/>
+                    <filter string="Done" name="done" domain="[('state', '=', 'done')]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="State" name="group_state" context="{'group_by': 'state'}"/>
+                        <filter string="Vehicle" name="group_vehicle" context="{'group_by': 'vehicle_id'}"/>
+                        <filter string="Mechanic" name="group_mechanic" context="{'group_by': 'assigned_mechanic_id'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Work Order Action -->
+        <record id="action_work_order" model="ir.actions.act_window">
+            <field name="name">Work Orders</field>
+            <field name="res_model">auto.vehicle.repair.work.order</field>
+            <field name="view_mode">list,form</field>
+            <field name="context">{'default_state': 'draft'}</field>
+        </record>
+    </data>
+</odoo>
+

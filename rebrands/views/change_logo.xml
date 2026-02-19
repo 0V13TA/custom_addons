@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="database_manager_login_logo" inherit_id="web.database_manager_auth_layout">
+            <xpath expr="//img" position="replace">
+                <img src="/rebrands/static/img/logo.svg" alt="EnterpriseOne" />
+            </xpath>
+        </template>
+    </data>
+</odoo>

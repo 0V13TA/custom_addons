@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Vehicle Tree View -->
+        <record id="view_vehicle_tree" model="ir.ui.view">
+            <field name="name">auto.vehicle.repair.vehicle.tree</field>
+            <field name="model">auto.vehicle.repair.vehicle</field>
+            <field name="arch" type="xml">
+                <list string="Vehicles" decoration-muted="not active">
+                    <field name="name"/>
+                    <field name="license_plate"/>
+                    <field name="make"/>
+                    <field name="owner_id"/>
+                    <field name="year"/>
+                    <field name="inspection_count" widget="statinfo" string="Inspections"/>
+                    <field name="work_order_count" widget="statinfo" string="Work Orders"/>
+                    <field name="maintenance_count" widget="statinfo" string="Maintenance"/>
+                    <field name="active" widget="boolean_toggle"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- Vehicle Form View -->
+        <record id="view_vehicle_form" model="ir.ui.view">
+            <field name="name">auto.vehicle.repair.vehicle.form</field>
+            <field name="model">auto.vehicle.repair.vehicle</field>
+            <field name="arch" type="xml">
+                <form string="Vehicle">
+                    <header>
+                        <button name="action_view_inspections" string="View Inspections" type="object" class="oe_highlight"/>
+                        <button name="action_view_work_orders" string="View Work Orders" type="object"/>
+                        <button name="action_view_maintenance" string="View Maintenance" type="object"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="action_view_inspections" type="object" class="oe_stat_button" icon="fa-search">
+                                <field name="inspection_count" widget="statinfo" string="Inspections"/>
+                            </button>
+                            <button name="action_view_work_orders" type="object" class="oe_stat_button" icon="fa-wrench">
+                                <field name="work_order_count" widget="statinfo" string="Work Orders"/>
+                            </button>
+                            <button name="action_view_maintenance" type="object" class="oe_stat_button" icon="fa-calendar">
+                                <field name="maintenance_count" widget="statinfo" string="Maintenance"/>
+                            </button>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="product_id" options="{'no_create': False}"/>
+                                <field name="name"/>
+                                <field name="owner_id" options="{'no_create': False}"/>
+                                <field name="license_plate"/>
+                            </group>
+                            <group>
+                                <field name="make"/>
+                                <field name="year"/>
+                                <field name="vin"/>
+                                <field name="location_id"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="is_maintenance_enabled"/>
+                                <field name="periodic_maintenance_interval" invisible="not is_maintenance_enabled"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Inspections">
+                                <field name="inspection_ids" nolabel="1">
+                                    <list>
+                                        <field name="name"/>
+                                        <field name="state" widget="badge" decoration-info="state=='quotation'" decoration-success="state=='accepted'" decoration-danger="state=='cancelled'"/>
+                                        <field name="inspection_date"/>
+                                        <field name="quotation_amount"/>
+                                        <field name="work_order_id"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Work Orders">
+                                <field name="work_order_ids" nolabel="1">
+                                    <list>
+                                        <field name="name"/>
+                                        <field name="state" widget="badge" decoration-info="state=='in_progress'" decoration-success="state=='done'" decoration-danger="state=='cancelled'"/>
+                                        <field name="assigned_mechanic_id"/>
+                                        <field name="start_date"/>
+                                        <field name="work_order_done_date"/>
+                                        <field name="end_date"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Spare Parts">
+                                <field name="spare_part_ids" nolabel="1">
+                                    <list>
+                                        <field name="name"/>
+                                        <field name="code"/>
+                                        <field name="product_id"/>
+                                        <field name="quantity"/>
+                                        <field name="available_quantity"/>
+                                        <field name="location_id"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Maintenance History">
+                                <field name="maintenance_record_ids" nolabel="1">
+                                    <list>
+                                        <field name="name"/>
+                                        <field name="scheduled_maintenance_date"/>
+                                        <field name="status" widget="badge" decoration-success="status=='completed'" decoration-danger="status=='cancelled'"/>
+                                        <field name="completed_date"/>
+                                    </list>
+                                </field>
+                            </page>
+                            <page string="Notes">
+                                <field name="notes" nolabel="1"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <!-- Vehicle Search View -->
+        <record id="view_vehicle_search" model="ir.ui.view">
+            <field name="name">auto.vehicle.repair.vehicle.search</field>
+            <field name="model">auto.vehicle.repair.vehicle</field>
+            <field name="arch" type="xml">
+                <search string="Vehicles">
+                    <field name="name"/>
+                    <field name="license_plate"/>
+                    <field name="vin"/>
+                    <field name="make"/>
+                    <field name="owner_id"/>
+                    <filter string="Active" name="active" domain="[('active', '=', True)]"/>
+                    <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Owner" name="group_owner" context="{'group_by': 'owner_id'}"/>
+                        <filter string="Make" name="group_make" context="{'group_by': 'make'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Vehicle Kanban View -->
+        <record id="view_vehicle_kanban" model="ir.ui.view">
+            <field name="name">auto.vehicle.repair.vehicle.kanban</field>
+            <field name="model">auto.vehicle.repair.vehicle</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="owner_id" class="o_kanban_mobile">
+                    <field name="name"/>
+                    <field name="owner_id"/>
+                    <field name="license_plate"/>
+                    <field name="make"/>
+                    <field name="inspection_count"/>
+                    <field name="work_order_count"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_card oe_kanban_global_click">
+                                <div class="oe_kanban_content">
+                                    <div class="o_kanban_record_top">
+                                        <div class="o_kanban_record_headings">
+                                            <strong class="o_kanban_record_title">
+                                                <field name="name"/>
+                                            </strong>
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_record_body">
+                                        <div><field name="owner_id"/></div>
+                                        <div>License: <field name="license_plate"/></div>
+                                        <div>Make: <field name="make"/></div>
+                                        <div>Inspections: <field name="inspection_count"/> | Work Orders: <field name="work_order_count"/></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <!-- Vehicle Action -->
+        <record id="action_vehicle" model="ir.actions.act_window">
+            <field name="name">Vehicles</field>
+            <field name="res_model">auto.vehicle.repair.vehicle</field>
+            <field name="view_mode">list,form,kanban</field>
+            <field name="search_view_id" ref="view_vehicle_search"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create your first vehicle!
+                </p>
+                <p>
+                    Record and manage all customer vehicles here. Track vehicle details, repair history, and maintenance schedules.
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo>
+

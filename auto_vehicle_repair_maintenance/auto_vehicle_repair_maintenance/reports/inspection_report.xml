@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_inspection_report" model="ir.actions.report">
+            <field name="name">Inspection Report</field>
+            <field name="model">auto.vehicle.repair.inspection</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">auto_vehicle_repair_maintenance.inspection_report_template</field>
+            <field name="report_file">auto_vehicle_repair_maintenance.inspection_report_template</field>
+            <field name="print_report_name">'Inspection - %s' % (object.name)</field>
+        </record>
+
+        <template id="inspection_report_template">
+            <t t-call="web.external_layout">
+                <t t-foreach="docs" t-as="doc">
+                    <main>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="oe_structure">
+                                    <h1 class="text-center" style="color: #875A7B; margin-bottom: 10px;">
+                                        <strong>VEHICLE INSPECTION REPORT</strong>
+                                    </h1>
+                                    <h3 class="text-center" style="color: #7C7BAD; margin-top: 0;">
+                                        Reference: <span t-esc="doc.name"/>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt16">
+                            <div class="col-6">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <strong>Customer Information</strong>
+                                    </div>
+                                    <div class="panel-body">
+                                        <p><strong>Name:</strong> <span t-esc="doc.customer_id.name or 'N/A'"/></p>
+                                        <p t-if="doc.customer_id.street"><strong>Address:</strong> <span t-esc="doc.customer_id.street"/></p>
+                                        <p t-if="doc.customer_id.city"><strong>City:</strong> <span t-esc="doc.customer_id.city"/></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <strong>Vehicle Information</strong>
+                                    </div>
+                                    <div class="panel-body">
+                                        <p><strong>Vehicle:</strong> <span t-esc="doc.vehicle_id.name or 'N/A'"/></p>
+                                        <p t-if="doc.vehicle_id.make"><strong>Make:</strong> <span t-esc="doc.vehicle_id.make"/></p>
+                                        <p t-if="doc.vehicle_id.license_plate"><strong>License Plate:</strong> <span t-esc="doc.vehicle_id.license_plate"/></p>
+                                        <p t-if="doc.vehicle_id.vin"><strong>VIN:</strong> <span t-esc="doc.vehicle_id.vin"/></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt16">
+                            <div class="col-12">
+                                <div class="panel panel-info">
+                                    <div class="panel-heading">
+                                        <strong>Inspection Details</strong>
+                                    </div>
+                                    <div class="panel-body">
+                                        <p><strong>Inspection Date:</strong> <span t-esc="doc.inspection_date" t-options="{'widget': 'datetime'}"/></p>
+                                        <p t-if="doc.inspected_by_id"><strong>Inspected By:</strong> <span t-esc="doc.inspected_by_id.name or ''"/></p>
+                                        <p t-if="doc.inspection_mileage"><strong>Mileage:</strong> <span t-esc="doc.inspection_mileage"/> km</p>
+                                        <p><strong>Overall Condition:</strong> 
+                                            <span class="label label-default" t-esc="doc.overall_condition_label or 'N/A'"/>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt16">
+                            <div class="col-6">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <strong>Engine Inspection</strong>
+                                    </div>
+                                    <div class="panel-body">
+                                        <p><strong>Condition:</strong> <span class="label" t-esc="doc.engine_condition_label or 'N/A'"/></p>
+                                        <p><strong>Oil Level:</strong> <span t-esc="doc.engine_oil_level or 'N/A'"/></p>
+                                        <p><strong>Coolant Level:</strong> <span t-esc="doc.engine_coolant_level or 'N/A'"/></p>
+                                        <p><strong>Belts Condition:</strong> <span t-esc="doc.engine_belts_condition or 'N/A'"/></p>
+                                        <div t-if="doc.engine_notes" class="alert alert-info" style="margin-top: 10px;">
+                                            <strong>Notes:</strong><br/>
+                                            <span t-esc="doc.engine_notes"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <strong>Brakes Inspection</strong>
+                                    </div>
+                                    <div class="panel-body">
+                                        <p><strong>Condition:</strong> <span class="label" t-esc="doc.brakes_condition_label or 'N/A'"/></p>
+                                        <p><strong>Brake Pads Thickness:</strong> <span t-esc="doc.brake_pads_thickness or 'N/A'"/></p>
+                                        <p><strong>Brake Fluid Level:</strong> <span t-esc="doc.brake_fluid_level or 'N/A'"/></p>
+                                        <div t-if="doc.brakes_notes" class="alert alert-info" style="margin-top: 10px;">
+                                            <strong>Notes:</strong><br/>
+                                            <span t-esc="doc.brakes_notes"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt16">
+                            <div class="col-6">
+                                <div class="panel panel-success">
+                                    <div class="panel-heading">
+                                        <strong>Tires Inspection</strong>
+                                    </div>
+                                    <div class="panel-body">
+                                        <p><strong>Condition:</strong> <span class="label" t-esc="doc.tires_condition_label or 'N/A'"/></p>
+                                        <p><strong>Front Pressure:</strong> <span t-esc="doc.tire_pressure_front or 'N/A'"/></p>
+                                        <p><strong>Rear Pressure:</strong> <span t-esc="doc.tire_pressure_rear or 'N/A'"/></p>
+                                        <p><strong>Tread Depth:</strong> <span t-esc="doc.tire_tread_depth or 'N/A'"/></p>
+                                        <div t-if="doc.tires_notes" class="alert alert-info" style="margin-top: 10px;">
+                                            <strong>Notes:</strong><br/>
+                                            <span t-esc="doc.tires_notes"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="panel panel-success">
+                                    <div class="panel-heading">
+                                        <strong>Electrical System</strong>
+                                    </div>
+                                    <div class="panel-body">
+                                        <p><strong>Condition:</strong> <span class="label" t-esc="doc.electrical_condition_label or 'N/A'"/></p>
+                                        <p><strong>Battery Voltage:</strong> <span t-esc="doc.battery_voltage or 'N/A'"/></p>
+                                        <p><strong>Battery Condition:</strong> <span t-esc="doc.battery_condition or 'N/A'"/></p>
+                                        <p><strong>Lights Condition:</strong> <span t-esc="doc.lights_condition or 'N/A'"/></p>
+                                        <div t-if="doc.electrical_notes" class="alert alert-info" style="margin-top: 10px;">
+                                            <strong>Notes:</strong><br/>
+                                            <span t-esc="doc.electrical_notes"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt16">
+                            <div class="col-6">
+                                <div class="panel panel-warning">
+                                    <div class="panel-heading">
+                                        <strong>Body &amp; Exterior</strong>
+                                    </div>
+                                    <div class="panel-body">
+                                        <p><strong>Body Condition:</strong> <span class="label" t-esc="doc.body_condition_label or 'N/A'"/></p>
+                                        <p><strong>Paint Condition:</strong> <span t-esc="doc.paint_condition or 'N/A'"/></p>
+                                        <p><strong>Windshield Condition:</strong> <span t-esc="doc.windshield_condition or 'N/A'"/></p>
+                                        <div t-if="doc.body_notes" class="alert alert-info" style="margin-top: 10px;">
+                                            <strong>Notes:</strong><br/>
+                                            <span t-esc="doc.body_notes"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="panel panel-warning">
+                                    <div class="panel-heading">
+                                        <strong>Suspension &amp; Steering</strong>
+                                    </div>
+                                    <div class="panel-body">
+                                        <p><strong>Suspension Condition:</strong> <span t-esc="doc.suspension_condition or 'N/A'"/></p>
+                                        <p><strong>Steering Condition:</strong> <span t-esc="doc.steering_condition or 'N/A'"/></p>
+                                        <div t-if="doc.suspension_notes" class="alert alert-info" style="margin-top: 10px;">
+                                            <strong>Notes:</strong><br/>
+                                            <span t-esc="doc.suspension_notes"/>
+                                        </div>
+                                        <div style="margin-top: 15px;">
+                                            <strong>Air Conditioning:</strong>
+                                            <p><strong>AC Condition:</strong> <span t-esc="doc.ac_condition or 'N/A'"/></p>
+                                            <div t-if="doc.ac_notes" class="alert alert-info" style="margin-top: 10px;">
+                                                <strong>Notes:</strong><br/>
+                                                <span t-esc="doc.ac_notes"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt16" t-if="doc.inspection_notes">
+                            <div class="col-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <strong>General Inspection Notes</strong>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="alert alert-warning">
+                                            <span t-esc="doc.inspection_notes"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt16" t-if="doc.estimated_repair_cost">
+                            <div class="col-12">
+                                <div class="panel panel-danger">
+                                    <div class="panel-heading text-center">
+                                        <h3 style="margin: 0;">
+                                            <strong>Estimated Repair Cost</strong>
+                                        </h3>
+                                    </div>
+                                    <div class="panel-body text-center">
+                                        <h2 style="margin: 0; color: #875A7B;">
+                                            <span t-esc="'{:.2f}'.format(doc.estimated_repair_cost)"/> <span t-esc="doc.currency_id.symbol or ''"/>
+                                        </h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

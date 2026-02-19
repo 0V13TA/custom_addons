@@ -1,0 +1,9 @@
+<odoo>
+    <data>
+        <template id="database_selector_overide_template" inherit_id="web.database_selector">
+            <xpath expr="//div[hasclass('oe_logo_title')]/img" position="attributes">
+                <attribute name="src">/rebrands/static/src/img/logo.png</attribute>
+            </xpath>
+        </template>
+    </data>
+</odoo>

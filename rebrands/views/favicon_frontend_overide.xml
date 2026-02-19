@@ -1,0 +1,9 @@
+<odoo>
+    <data>
+        <template id="global_favicon_script" inherit_id="web.layout">
+            <xpath expr="//head" position="inside">
+                <script type="text/javascript" src="/rebrands/static/src/js/favicon_overide.js"></script>
+            </xpath>
+        </template>
+    </data>
+</odoo>

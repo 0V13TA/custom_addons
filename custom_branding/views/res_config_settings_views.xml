@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_custom_branding" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.custom.branding</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Custom Branding" string="Custom Branding" name="custom_branding">
+                    <div id="custom_branding_settings">
+                        <block title="Branding" name="branding_setting_container">
+                            <setting id="database_page_logo_setting" string="Database Page Logo" help="Logo displayed on the database selection page">
+                                <field name="database_page_logo" widget="image" class="oe_avatar" options="{'preview_image': 'database_page_logo', 'size': [90, 90]}"/>
+                            </setting>
+                            <setting id="database_page_title_setting" string="Database Page Title" help="Title shown in browser tab on database page">
+                                <field name="database_page_title" placeholder="Your Company Name"/>
+                            </setting>
+                            <setting id="login_powered_by_text_setting" string="Login Page 'Powered by' Text" help="Text at bottom of login page (leave empty to hide)">
+                                <field name="login_powered_by_text" placeholder="Powered by Your Company"/>
+                            </setting>
+                            <setting id="login_powered_by_url_setting" string="Login Page 'Powered by' URL" help="URL for the 'Powered by' link">
+                                <field name="login_powered_by_url" placeholder="https://www.yourcompany.com"/>
+                            </setting>
+                            <setting id="pos_logo_setting" string="POS Logo" help="Logo displayed in POS interface and receipts">
+                                <field name="pos_logo" widget="image" class="oe_avatar" options="{'preview_image': 'pos_logo', 'size': [90, 90]}"/>
+                            </setting>
+                            <setting id="pos_company_name_setting" string="POS Company Name" help="Company name displayed in POS interface and receipts">
+                                <field name="pos_company_name" placeholder="Your Company Name"/>
+                            </setting>
+                            <setting id="pos_receipt_footer_text_setting" string="POS Receipt Footer Text" help="Text at bottom of POS receipts (leave empty to hide)">
+                                <field name="pos_receipt_footer_text" placeholder="Powered by Your Company"/>
+                            </setting>
+                        </block>
+                    </div>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>
+

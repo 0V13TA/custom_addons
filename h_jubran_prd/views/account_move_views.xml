@@ -1,0 +1,99 @@
+<odoo>
+    <!-- Extend Account Move Form -->
+    <record id="view_account_move_form_inherit_project" model="ir.ui.view">
+        <field name="name">account.move.form.inherit.project</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <!-- Hide standard Auto-Complete field and label if it exists -->
+            <xpath expr="//field[@name='purchase_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <!-- Hide the label for purchase_vendor_bill_id -->
+            <xpath expr="//label[@for='purchase_vendor_bill_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <!-- Hide the field for purchase_vendor_bill_id -->
+            <xpath expr="//field[@name='purchase_vendor_bill_id']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            
+            <!-- Place after Invoice Date -->
+            <xpath expr="//field[@name='invoice_date']" position="after">
+                <field name="project_id" />
+                <field name="project_site" readonly="1"/>
+                <field name="auto_complete_po_id" 
+                       invisible="move_type != 'in_invoice'"
+                       domain="[('state', 'in', ['purchase', 'done'])]"
+                       options="{'no_create': True, 'no_open': True}"
+                       context="{'default_partner_id': partner_id}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Extend the invoice_line_ids nested list in the form view to add category/subcategory -->
+    <!-- IMPORTANT: This view extends the nested list inside invoice_line_ids field -->
+    <record id="view_account_move_form_inherit_invoice_lines" model="ir.ui.view">
+        <field name="name">account.move.form.inherit.invoice.lines</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <!-- Add Category and Subcategory to invoice lines nested list -->
+            <!-- This is the nested list view inside the invoice_line_ids field -->
+            <xpath expr="//field[@name='invoice_line_ids']//list//field[@name='product_id']" position="after">
+                <field name="category_id" string="Category"/>
+                <field name="subcategory_id" string="Sub-Category"
+                       domain="[('category_id', '=', category_id)]"/>
+                <field name="master_element_id" string="Element"
+                       domain="[('subcategory_id', '=', subcategory_id)]"
+                       column_invisible="1"/>
+                <field name="location_id" string="Location"
+                       domain="[('usage', 'in', ['internal', 'transit'])]"
+                       column_invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_account_move_line_tree_inherit_project" model="ir.ui.view">
+        <field name="name">account.move.line.tree.inherit.project</field>
+        <field name="model">account.move.line</field>
+        <field name="inherit_id" ref="account.view_move_line_tree"/> 
+        <field name="arch" type="xml">
+            
+            <!-- Add Category and Subcategory fields - ALWAYS VISIBLE in invoice lines -->
+            <!-- These should appear right after product_id so they're always visible -->
+            <field name="product_id" position="after">
+                <field name="category_id" string="Category"/>
+                <field name="subcategory_id" string="Sub-Category"
+                       domain="[('category_id', '=', category_id)]"/>
+            </field>
+            
+            <!-- Add other fields after category/subcategory -->
+            <field name="subcategory_id" position="after">
+                <field name="master_element_id" string="Element"
+                       domain="[('subcategory_id', '=', subcategory_id)]"
+                       column_invisible="1"/>
+                <field name="location_id" string="Location"
+                       domain="[('usage', 'in', ['internal', 'transit'])]"
+                       column_invisible="1"/>
+            </field>
+            
+            <!-- Stage field for project tracking -->
+            <field name="product_id" position="after">
+                <field name="stage_id" 
+                       optional="show" 
+                       context="{'default_project_id': parent.project_id}"/>
+            </field>
+            
+            <field name="product_id" position="after">
+                <field name="allowed_stage_ids" invisible="1"/>
+            </field>
+            
+            <!-- Project field (related, readonly) -->
+            <field name="product_id" position="after">
+                <field name="project_id" column_invisible="1" readonly="1"/>
+            </field>
+            
+        </field>
+    </record>
+</odoo>

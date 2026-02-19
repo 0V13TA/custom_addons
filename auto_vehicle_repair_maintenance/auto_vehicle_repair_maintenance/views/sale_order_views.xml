@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Sale Order Form View Extension -->
+        <record id="view_order_form_repair_job" model="ir.ui.view">
+            <field name="name">sale.order.form.inspection</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="inspection_id" invisible="not inspection_id"/>
+                    <field name="vehicle_id" invisible="not vehicle_id"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <!-- Sale Order Line View Extension - Add Quantity on Hand -->
+        <record id="view_order_line_tree_inherit" model="ir.ui.view">
+            <field name="name">sale.order.line.tree.qty_available</field>
+            <field name="model">sale.order.line</field>
+            <field name="inherit_id" ref="sale.view_order_line_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_uom_qty']" position="after">
+                    <field name="qty_available" string="Qty on Hand" readonly="1"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
+

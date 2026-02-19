@@ -1,0 +1,216 @@
+// HEMIS Dashboard Styling
+
+// Overall dashboard styling
+.hemis_dashboard {
+    background-color: #f0f2f5;
+    padding: 20px;
+    
+    // Card container
+    .o_kanban_view {
+        background-color: transparent !important;
+        .o_kanban_record {
+            background-color: white !important;
+            border-radius: 10px !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+            border: none !important;
+            padding: 1.5rem !important;
+            margin-bottom: 20px !important;
+            transition: transform 0.2s ease-in-out;
+            
+            &:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1) !important;
+            }
+        }
+    }
+}
+
+// Dashboard card styling
+.hemis_dashboard_card {
+    background-color: white !important;
+    border-radius: 10px !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+    border: none !important;
+    padding: 1.5rem !important;
+    margin-bottom: 20px !important;
+    transition: transform 0.2s ease-in-out;
+    
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1) !important;
+    }
+}
+
+// Dashboard metrics styling (colored cards)
+.hemis_dashboard_metrics {
+    background-color: #0165fc !important;
+    color: white !important;
+    
+    .o_subheader {
+        color: white !important;
+        border-bottom-color: rgba(255, 255, 255, 0.2) !important;
+    }
+    
+    .o_value {
+        font-size: 28px !important;
+        font-weight: 700 !important;
+    }
+    
+    .o_label {
+        color: rgba(255, 255, 255, 0.8) !important;
+        font-size: 14px !important;
+    }
+}
+
+// Header bar styling
+.o_main_navbar {
+    background-color: #0165fc !important;
+    border-bottom: none !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    
+    .o_menu_brand {
+        color: white !important;
+        font-weight: 600;
+    }
+    
+    .o_menu_sections {
+        color: rgba(255, 255, 255, 0.9) !important;
+        
+        > a {
+            color: rgba(255, 255, 255, 0.9) !important;
+            
+            &:hover, &:focus {
+                color: white !important;
+                background-color: rgba(255, 255, 255, 0.1) !important;
+            }
+        }
+    }
+}
+
+// Search bar styling
+.o_searchview {
+    border-radius: 5px !important;
+    border: 1px solid #e0e0e0 !important;
+    background-color: white !important;
+    padding: 5px 10px !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05) !important;
+}
+
+// Button styling
+.btn-primary {
+    background-color: #0165fc !important;
+    border-color: #0165fc !important;
+    border-radius: 5px;
+    font-weight: 500;
+    padding: 8px 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    
+    &:hover, &:focus {
+        background-color: #0165fc !important;
+        border-color: #0165fc !important;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(25, 118, 210, 0.3);
+    }
+}
+
+// Chart styling
+.o_graph_canvas_container {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+// Vendor bill card
+.o_kanban_view.o_kanban_dashboard.o_account_kanban {
+    .o_kanban_record {
+        &.o_has_icon {
+            .o_kanban_card_header {
+                background-color: #f5f7fa !important;
+                border-bottom: 1px solid #e0e0e0;
+                padding: 10px 15px;
+                border-radius: 10px 10px 0 0;
+                
+                .o_primary {
+                    color: #0165fc;
+                    font-weight: 600;
+                }
+            }
+            
+            .o_kanban_card_content {
+                padding: 15px;
+            }
+        }
+    }
+}
+
+// Navigation tabs styling
+.nav-tabs {
+    border-bottom: none;
+    margin-bottom: 20px;
+    
+    .nav-link {
+        border: none;
+        color: #607d8b;
+        font-weight: 500;
+        padding: 10px 15px;
+        margin-right: 5px;
+        border-radius: 5px;
+        
+        &.active {
+            color: #0165fc;
+            background-color: rgba(25, 118, 210, 0.1);
+        }
+    }
+}
+
+.hemis_custom_header {
+    background-color: #0165fc !important;
+    color: white !important;
+    padding: 10px 0 !important;
+    text-align: center !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+.hemis_custom_header .hemis_title {
+    color: white !important;
+    }
+.hemis_custom_header .hemis_logo{
+    height: 100% !important;
+    width: 100% !important;
+    object-fit: cover !important;
+}
+.logo_wrapper {
+        height: 90px;
+        display: flex;
+        align-items: center;
+    }
+
+.logo_wrapper img {
+        height: 90px !important;
+        width: auto !important;
+        max-height: unset !important;
+        max-width: unset !important;
+        min-height: unset !important;
+    }
+
+    /* Break Odoo backend image clamp */
+.o_web_client .logo_wrapper img {
+        max-height: unset !important;
+    }
+img.hemis_logo{
+    height: 100px;
+    width: auto;
+}
+.o_web_client {
+    .hemis_custom_header {
+        img.hemis_logo {
+            max-height: none !important;
+            height: 90px !important;
+            width: auto !important;
+            min-height: unset !important;
+            max-width: unset !important;
+            display: block !important;
+        }
+    }
+}

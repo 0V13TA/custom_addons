@@ -1,0 +1,45 @@
+<odoo>
+    
+    <record id="view_purchase_order_form_project_extension" model="ir.ui.view">
+        <field name="name">purchase.order.form.project.extension</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_ref']" position="after">
+                <field name="project_id" string="Project"/>
+                <field name="project_site" readonly="1"/>
+                <field name="auto_complete_pr_id" 
+                       invisible="state not in ['draft', 'sent']"
+                       domain="[('state', '=', 'done'), ('used_in_confirmed_po', '=', False)]"
+                       options="{'no_create': True, 'no_open': True}"/>
+                <field name="purchase_request_names" readonly="1" 
+                    invisible="not purchase_request_names"/>
+            </xpath>
+        </field>
+    </record>
+
+    
+    <record id="view_purchase_order_line_form_project_line_fields" model="ir.ui.view">
+        <field name="name">purchase.order.line.form.project.line.fields</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <!-- Make product_id optional when subcategory is provided -->
+            <xpath expr="//field[@name='order_line']//field[@name='product_id']" position="attributes">
+                <attribute name="required">0</attribute>
+            </xpath>
+            <xpath expr="//field[@name='order_line']//field[@name='product_id']" position="after">
+                <field name="project_id" optional="hide" readonly="1" /> 
+                
+                <field name="category_id" optional="show" />
+                <field name="subcategory_id" optional="show" 
+                       string="BOQ Sub-Category"
+                       domain="[('category_id', '=', category_id)]"
+                       help="Select subcategory to automatically update BOQ actual costs. If set, product is optional."/>
+                <field name="master_element_id" optional="show" 
+                       domain="[('subcategory_id', '=', subcategory_id)]"/>
+            </xpath>
+        </field>
+    </record>
+    
+</odoo>

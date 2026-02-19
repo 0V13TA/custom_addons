@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+<!--
+    <record model="ir.ui.view" id="landing_page.list">
+      <field name="name">landing_page list</field>
+      <field name="model">landing_page.landing_page</field>
+      <field name="arch" type="xml">
+        <list>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </list>
+      </field>
+    </record>
+-->
+
+    <!-- actions opening views on models -->
+<!--
+    <record model="ir.actions.act_window" id="landing_page.action_window">
+      <field name="name">landing_page window</field>
+      <field name="res_model">landing_page.landing_page</field>
+      <field name="view_mode">list,form</field>
+    </record>
+-->
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="landing_page.action_server">
+      <field name="name">landing_page server</field>
+      <field name="model_id" ref="model_landing_page_landing_page"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "list,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="landing_page" id="landing_page.menu_root"/>
+-->
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="landing_page.menu_1" parent="landing_page.menu_root"/>
+    <menuitem name="Menu 2" id="landing_page.menu_2" parent="landing_page.menu_root"/>
+-->
+    <!-- actions -->
+<!--
+    <menuitem name="List" id="landing_page.menu_1_list" parent="landing_page.menu_1"
+              action="landing_page.action_window"/>
+    <menuitem name="Server to list" id="landing_page" parent="landing_page.menu_2"
+              action="landing_page.action_server"/>
+-->
+  </data>
+</odoo>

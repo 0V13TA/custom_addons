@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <t t-name="dashboard_page">
+        <style>
+    .dashboard-row {
+        margin-left: 200px;
+        margin-right: 170px;
+        margin-top: 15px;
+    }
+    .dashboard-col {
+        padding-left: 20px;
+        padding-right: 20px;
+        margin-bottom: 6px;
+        display: flex;
+        justify-content: center;
+    }
+    .dashboard-card {
+        background-color: #0165fc;
+        color: white !important;
+        width: 100%;
+        max-width: 360px;
+        height: 240px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        border-radius: 12px;
+        margin: 0 auto;
+        margin-top: 10px;
+        transform-origin: center;
+        cursor: pointer;
+    }
+    .dashboard-card:hover {
+        background-color: #102b47;
+        transform: scale(1.05);
+    }
+    .dashboard-icon-circle {
+        background: white;
+        border-radius: 50%;
+        width: 100px;
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 6px;
+    }
+    .dashboard-icon-circle i {
+        color: #007bff;
+        font-size: 50px;
+    }
+    .dashboard-text {
+        font-weight: bold;
+        font-size: 1rem;
+        margin: 0;
+        text-align: center;
+    }
+
+    /* Responsive breakpoints */
+    @media (min-width: 1200px) {
+        .dashboard-row {
+            margin-left: 200px;
+            margin-right: 170px;
+        }
+    }
+
+    @media (max-width: 1199px) {
+        .dashboard-row {
+            margin-left: 100px;
+            margin-right: 100px;
+        }
+        .col-md-3 {
+            flex: 0 0 50%;
+            max-width: 50%;
+        }
+    }
+
+    @media (max-width: 991px) {
+        .dashboard-row {
+            margin-left: 50px;
+            margin-right: 50px;
+        }
+        .dashboard-col {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        .dashboard-card {
+            height: 200px;
+            max-width: 300px;
+        }
+        .dashboard-icon-circle {
+            width: 80px;
+            height: 80px;
+        }
+        .dashboard-icon-circle i {
+            font-size: 40px;
+        }
+        .dashboard-text {
+            font-size: 0.9rem;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .dashboard-row {
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+        .dashboard-col {
+            padding-left: 5px;
+            padding-right: 5px;
+            margin-bottom: 10px;
+        }
+        .dashboard-card {
+            height: 180px;
+            max-width: 280px;
+        }
+        .dashboard-icon-circle {
+            width: 70px;
+            height: 70px;
+        }
+        .dashboard-icon-circle i {
+            font-size: 35px;
+        }
+        .dashboard-text {
+            font-size: 0.85rem;
+        }
+        .col-md-3 {
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+    }
+
+    @media (max-width: 575px) {
+        .dashboard-row {
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+        .dashboard-col {
+            padding-left: 0;
+            padding-right: 0;
+            margin-bottom: 15px;
+        }
+        .dashboard-card {
+            height: 160px;
+            max-width: 100%;
+            min-width: 250px;
+        }
+        .dashboard-icon-circle {
+            width: 60px;
+            height: 60px;
+        }
+        .dashboard-icon-circle i {
+            font-size: 30px;
+        }
+        .dashboard-text {
+            font-size: 0.8rem;
+        }
+        .dashboard-card:hover {
+            transform: scale(1.02);
+        }
+    }
+
+    @media (max-width: 480px) {
+        .dashboard-card {
+            height: 140px;
+            min-width: 200px;
+        }
+        .dashboard-icon-circle {
+            width: 50px;
+            height: 50px;
+        }
+        .dashboard-icon-circle i {
+            font-size: 25px;
+        }
+        .dashboard-text {
+            font-size: 0.75rem;
+        }
+    }
+</style>
+
+        <div class="o_action_manager">
+            <div class="container-fluid">
+                <div class="row dashboard-row justify-content-center">
+                 
+                    
+                    <div class="col-md-3 dashboard-col">
+                        <div class="dashboard-card" t-on-click="() => this.onDashboardClick('accounting')">
+                            <div class="dashboard-icon-circle">
+                                <i class="fa fa-calculator"></i>
+                            </div>
+                            <p class="dashboard-text">Accounting</p>
+                        </div>
+                    </div>
+                
+                    <div class="col-md-3 dashboard-col">
+                        <div class="dashboard-card" t-on-click="() => this.onDashboardClick('purchase')">
+                            <div class="dashboard-icon-circle">
+                                <i class="fa fa-money"></i>
+                            </div>
+                            <p class="dashboard-text">Purchase</p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3 dashboard-col">
+                        <div class="dashboard-card" t-on-click="() => this.onDashboardClick('inventory')">
+                            <div class="dashboard-icon-circle">
+                                <i class="fa fa-cubes"></i>
+                            </div>
+                            <p class="dashboard-text">Inventory</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 dashboard-col">
+                        <div class="dashboard-card" t-on-click="() => this.onDashboardClick('sales')">
+                            <div class="dashboard-icon-circle">
+                                <i class="fa fa-balance-scale"></i>
+                            </div>
+                            <p class="dashboard-text">Sales</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 dashboard-col">
+                        <div class="dashboard-card" t-on-click="() => this.onDashboardClick('hr')">
+                            <div class="dashboard-icon-circle">
+                                <i class="fa fa-users"></i>
+                            </div>
+                            <p class="dashboard-text">HR</p>
+                        </div>
+                    </div>
+
+                    <div class="col-md-3 dashboard-col">
+                        <div class="dashboard-card" t-on-click="() => this.onDashboardClick('project')">
+                            <div class="dashboard-icon-circle">
+                                <i class="fa fa-lock"></i>
+                            </div>
+                            <p class="dashboard-text">Project Budget</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

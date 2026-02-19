@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_work_order_report" model="ir.actions.report">
+            <field name="name">Work Order Report</field>
+            <field name="model">auto.vehicle.repair.work.order</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">auto_vehicle_repair_maintenance.work_order_report_template</field>
+            <field name="report_file">auto_vehicle_repair_maintenance.work_order_report_template</field>
+            <field name="print_report_name">'Work Order - %s' % (object.name)</field>
+        </record>
+
+        <template id="work_order_report_template">
+            <t t-call="web.external_layout">
+                <t t-foreach="docs" t-as="doc">
+                    <main>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="oe_structure">
+                                    <h1 class="text-center" style="color: #875A7B; margin-bottom: 10px;">
+                                        <strong>WORK ORDER</strong>
+                                    </h1>
+                                    <h3 class="text-center" style="color: #7C7BAD; margin-top: 0;">
+                                        Reference: <span t-esc="doc.name"/>
+                                    </h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt16">
+                            <div class="col-6">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <strong>Customer Information</strong>
+                                    </div>
+                                    <div class="panel-body">
+                                        <p><strong>Name:</strong> <span t-esc="doc.customer_id.name or 'N/A'"/></p>
+                                        <p t-if="doc.customer_id.street"><strong>Address:</strong> <span t-esc="doc.customer_id.street"/></p>
+                                        <p t-if="doc.customer_id.city"><strong>City:</strong> <span t-esc="doc.customer_id.city"/></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <strong>Vehicle Information</strong>
+                                    </div>
+                                    <div class="panel-body">
+                                        <p><strong>Vehicle:</strong> <span t-esc="doc.vehicle_id.name or 'N/A'"/></p>
+                                        <p t-if="doc.vehicle_id.make"><strong>Make:</strong> <span t-esc="doc.vehicle_id.make"/></p>
+                                        <p t-if="doc.vehicle_id.license_plate"><strong>License Plate:</strong> <span t-esc="doc.vehicle_id.license_plate"/></p>
+                                        <p t-if="doc.vehicle_id.vin"><strong>VIN:</strong> <span t-esc="doc.vehicle_id.vin"/></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt16">
+                            <div class="col-12">
+                                <div class="panel panel-info">
+                                    <div class="panel-heading">
+                                        <strong>Work Timeline</strong>
+                                    </div>
+                                    <div class="panel-body">
+                                        <p><strong>Work Started:</strong> <span t-esc="doc.start_date" t-options="{'widget': 'datetime'}"/></p>
+                                        <p t-if="doc.work_order_done_date"><strong>Work Completed:</strong> <span t-esc="doc.work_order_done_date" t-options="{'widget': 'datetime'}"/></p>
+                                        <p t-if="doc.end_date"><strong>Job Finalized:</strong> <span t-esc="doc.end_date" t-options="{'widget': 'datetime'}"/></p>
+                                        <p t-if="doc.assigned_mechanic_id"><strong>Assigned Mechanic:</strong> <span t-esc="doc.assigned_mechanic_id.name or ''"/></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt16" t-if="doc.inspection_id and doc.inspection_id.quotation_line_ids">
+                            <div class="col-12">
+                                <div class="panel panel-primary">
+                                    <div class="panel-heading">
+                                        <strong>Work Items &amp; Services</strong>
+                                    </div>
+                                    <div class="panel-body">
+                                        <table class="table table-condensed table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Description</th>
+                                                    <th class="text-center">Quantity</th>
+                                                    <th class="text-right">Unit Price</th>
+                                                    <th class="text-right">Subtotal</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <t t-foreach="doc.inspection_id.quotation_line_ids" t-as="line">
+                                                    <tr>
+                                                        <td><span t-esc="line.description or ''"/></td>
+                                                        <td class="text-center"><span t-esc="line.quantity"/></td>
+                                                        <td class="text-right"><span t-esc="'{:.2f}'.format(line.unit_price)"/></td>
+                                                        <td class="text-right"><span t-esc="'{:.2f}'.format(line.subtotal)"/></td>
+                                                    </tr>
+                                                </t>
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <td colspan="3" class="text-right"><strong>Total:</strong></td>
+                                                    <td class="text-right">
+                                                        <strong><span t-esc="'{:.2f}'.format(doc.inspection_id.quotation_amount or (doc.sale_order_id and doc.sale_order_id.amount_total) or 0.0)"/></strong>
+                                                    </td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt16" t-if="doc.work_description">
+                            <div class="col-12">
+                                <div class="panel panel-success">
+                                    <div class="panel-heading">
+                                        <strong>Work Description</strong>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="alert alert-info">
+                                            <span t-esc="doc.work_description"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt16" t-if="doc.inspection_notes">
+                            <div class="col-12">
+                                <div class="panel panel-warning">
+                                    <div class="panel-heading">
+                                        <strong>Inspection Summary</strong>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="alert alert-warning">
+                                            <span t-esc="doc.inspection_notes"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mt16">
+                            <div class="col-12">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <strong>Inspection Conditions</strong>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <p><strong>Engine:</strong> <span class="label" t-esc="doc.engine_condition_label or 'N/A'"/></p>
+                                                <p><strong>Brakes:</strong> <span class="label" t-esc="doc.brakes_condition_label or 'N/A'"/></p>
+                                                <p><strong>Tires:</strong> <span class="label" t-esc="doc.tires_condition_label or 'N/A'"/></p>
+                                            </div>
+                                            <div class="col-6">
+                                                <p><strong>Electrical:</strong> <span class="label" t-esc="doc.electrical_condition_label or 'N/A'"/></p>
+                                                <p><strong>Body:</strong> <span class="label" t-esc="doc.body_condition_label or 'N/A'"/></p>
+                                                <p><strong>Overall:</strong> <span class="label" t-esc="doc.overall_condition_label or 'N/A'"/></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </main>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>
